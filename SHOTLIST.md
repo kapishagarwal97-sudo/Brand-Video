@@ -1,183 +1,118 @@
-# TRYB — Vox-Style Paper Cutout Collage Video
+# TRYB — "Alone, Together" · Vox-style collage film
 
-**Theme:** "Social media is reducing in-real-life experiences and bonding — TRYB brings people back together."
-**Runtime target:** ~90 seconds, 6 scenes
-**Format:** 16:9, one strong paper-cutout collage frame per beat
-**Style:** Vox.com explainer paper-cutout collage (see Master Style Block below)
-
-This document is the production plan. Generate each image with the prompt provided, save it to `images/` using the exact **filename**, and it will drop into `storyboard.html` automatically.
+**Delivered:** `tryb-vox-collage-90s.mp4` — 87 s · 1920×1080 · 24 fps (animated on twos) · 26 MB
+**Also:** `tryb-vox-collage-720p.mp4` (1280×720, 7 MB) for social/email · `poster.jpg` · `storyboard.html` (edit sheet)
+**Rebuild:** `python3 build/render.py` then encode (command at the bottom)
 
 ---
 
-## Master Style Block (paste at the START of every image prompt)
+## The cut — 17 shots, 87 seconds
 
+| # | TC | Dur | Source | Beat | Move |
+|---|-----|-----|--------|------|------|
+| 1 | 0:00 | 4.5 | `01-hook-thumbnail.png` | A room full of people, all gone | push in |
+| 2 | 0:04 | 3.5 | `01-hook-thumbnail3.png` | **ALONE, TOGETHER.** | slow push |
+| 3 | 0:08 | 6.5 | `02-endless-scroll.png` | just five more minutes | pan down |
+| 4 | 0:14 | 6.0 | `03-dead-group-chat.png` | the plans that never happen | pan down |
+| 5 | 0:20 | 4.5 | `04-couple-apart.png` | close, and nowhere near | push in |
+| 6 | 0:25 | 4.5 | `04-couple-apart.png1.png` | text back later. | slow push |
+| 7 | 0:29 | 5.5 | `05-data-decline.png` | 7h 42m | pan down |
+| 8 | 0:35 | 3.5 | `01-hook-thumbnail2.png` | what it replaced | pull out |
+| 9 | 0:38 | 4.0 | `06-tryb-reveal.png` | **tryb** | slow push |
+| 10 | 0:42 | 6.0 | `07-what-energizes-you.png` | what energizes you? | pan down |
+| 11 | 0:48 | 5.0 | `08-real-experiences.png` | you're invited | push in |
+| 12 | 0:53 | 5.0 | `09-curated-matches.png` | matched on what you love | pan down |
+| 13 | 0:58 | 6.0 | `10-invitation-gathering.png` | **from screen to table** | pan right |
+| 14 | 1:04 | 6.0 | `11-real-connection1.png` | joyful bonding | push in |
+| 15 | 1:10 | 5.0 | `11-real-connection.png` | real people, real experiences | pan right |
+| 16 | 1:15 | 5.0 | `12-endcard.png` | YOUR PEOPLE ARE OUT THERE | slow push |
+| 17 | 1:20 | 6.5 | `12-endcard1.png` | JOIN TRYB | hold |
+
+Scene map: **1 Hook** 0:00–0:20 · **2 Problem** 0:20–0:38 · **3 Idea** 0:38–0:53 ·
+**4 How it works** 0:53–1:04 · **5 Emotion** 1:04–1:15 · **6 Ending** 1:15–1:27
+
+---
+
+## Colour arc
+
+The film never mixes grounds — one flat colour per scene is what makes 17 separately
+generated images read as a single production.
+
+| Ground | Hex | Where |
+|--------|-----|-------|
+| Hook teal | `#123F45` | Scene 1 |
+| Overload brick | `#A93A24` | Scene 2 |
+| Turn mustard | `#D9971A` | Scene 3 |
+| tryb orange | `#EB642E` | Scenes 4–6 |
+| Stock cream | `#F2DCC4` | throughout |
+| Ink | `#1F1A14` | annotation |
+
+Orange and cream are read directly off `Brand Palette Background Color.png`.
+
+---
+
+## Every asset you supplied
+
+**In the cut (17):** `01-hook-thumbnail.png`, `01-hook-thumbnail2.png`, `01-hook-thumbnail3.png`,
+`02-endless-scroll.png`, `03-dead-group-chat.png`, `04-couple-apart.png`, `04-couple-apart.png1.png`,
+`05-data-decline.png`, `06-tryb-reveal.png`, `07-what-energizes-you.png`, `08-real-experiences.png`,
+`09-curated-matches.png`, `10-invitation-gathering.png`, `11-real-connection.png`,
+`11-real-connection1.png`, `12-endcard.png`, `12-endcard1.png`
+
+**Held as alternates (3):**
+- `01-hook-thumbnail.png1.png` — wider crowd, faces less legible than the version used.
+- `08-real-experiences1.png` — teal "You're invited". Beautiful, but teal belongs to Scene 1 in this
+  arc; using it at 0:48 would break the warm turn. Strong as a standalone social still.
+- `10-invitation-gathering1.png` — orange variant with cleaner UI. Genuinely close call against the
+  mustard one; swap it in if you'd rather the pivot land on brand colour a beat earlier.
+
+**Supporting assets (4):** `Blank cream paper texture.png`, `Brand Palette Background Color.png`
+(+ duplicate `(1)`), `transparent PNG cutouts (arrows, tape, hearts).png`, `LOGO.jpg`
+
+---
+
+## Production notes
+
+**Nothing arrived at 16:9.** Native ratios ran 0.75 (portrait) to 1.50 — none matched the 1.78 the
+film needed. Cropping would have cut text off compositions that were designed as whole layouts, so
+instead: tall frames became vertical pans, and frames that must read all at once (`06`, `12`, `12-1`)
+sit on a field extended from their own matched edge colour, which is seamless because those
+backgrounds are flat paper. On `02` the constraint turned into the best move in the film — the pan
+follows the feed down to the pile on the floor.
+
+**Two visual registers, used deliberately.** Some shots came back photoreal, some as true paper
+collage. That is how Vox actually works, so the cut alternates: photoreal states the fact, collage
+argues about it. Shots 5 and 6 run the same beat both ways, back to back.
+
+**Rendered on twos.** Frames are generated at 12 fps and encoded to 24, so the stop-motion stutter is
+in the footage rather than applied as a filter. Grain is composited per frame from a rotating pool of
+eight tiles so it flickers like film instead of sitting static.
+
+**Silent by design.** Every frame carries its own typography, so no captions were burned in — they
+would fight the paper. The film wants a music bed and optionally sparse VO; it does not want
+lower-thirds.
+
+### Two things worth fixing before the next round
+
+1. **The cutout sheet isn't transparent.** `transparent PNG cutouts (arrows, tape, hearts).png` has a
+   baked olive-gradient background, so the arrows/tape/hearts can't be layered over frames as-is.
+   Re-render on true alpha and they become animatable overlays.
+2. **Two logo colourways are in play.** The wordmark is cream on `06`/`12`/`12-1` and orange on
+   `07`/`09`/`10`. Both read fine in sequence, but worth locking one rule.
+
+---
+
+## Rebuild
+
+```bash
+pip install pillow imageio-ffmpeg
+python3 build/render.py                      # writes 1044 PNG frames at 12 fps
+ffmpeg -y -framerate 12 -i frames/f%05d.png \
+  -c:v libx264 -preset slower -crf 24 -tune grain \
+  -pix_fmt yuv420p -r 24 -movflags +faststart \
+  tryb-vox-collage-90s.mp4
 ```
-Editorial paper-cutout collage illustration in the style of Vox.com explainer videos.
-Hand-cut paper figures with visible torn and rough-cut edges, layered on a cream/off-white
-textured cardstock background. Halftone-dot archival photographs cut out and pasted at angles.
-Bold flat single-color background blocks (mustard yellow, brick red, teal), no gradients.
-Visible strips of tape and paper drop-shadows sell the physical collage feel. Hand-drawn
-black ink annotation arrows, circles and marker-style handwritten labels. Bold cutout
-typography made of stacked, slightly rotated paper letters. Grainy paper texture overlay,
-slight film grain, muted vintage color grade with one saturated accent color. Flat overhead
-lighting, no 3D rendering — everything reads as physically assembled paper craft photographed
-from directly above. High detail, 16:9 composition, clean negative space for text.
-```
 
-**Rules that keep it "Vox" and not generic collage:**
-- 3–4 flat tones max per frame: one bold accent + neutrals.
-- "Photographed directly overhead, flat lighting, no drop shadows beyond paper layering."
-- For photo elements add: "visible CMYK-style dot screen pattern, like an old newspaper photo."
-- Palette carries meaning: cold/desaturated for the "isolation" scenes → warm/saturated once TRYB delivers real connection.
-
----
-
-## SCENE 1 — THE HOOK (0–15s) · problem: alone together
-
-### IMG-01 · `images/01-hook-thumbnail.png` — Cold open / thumbnail
-Master Style Block +
-> A hand-cut paper crowd at a party, each figure isolated inside its own pool of cold blue
-> phone-glow, all staring down at flat-color cutout phone screens instead of each other. A
-> halftone-dot archival photo of an old-fashioned group hug is torn and pasted in the corner,
-> fading at the edges. A hand-drawn red ink arrow circles one disconnected figure. Big cutout
-> paper-letter headline "ALONE, TOGETHER" across the top. Flat teal background, mustard accent
-> shapes, visible tape and paper grain. 16:9.
-
-### IMG-02 · `images/02-endless-scroll.png` — Endless scrolling + notifications
-Master Style Block +
-> A single hand-cut paper figure hunched over an oversized flat-color cutout smartphone, an
-> endlessly long torn-paper feed strip unspooling out of the phone and pooling on the floor.
-> Cutout notification bubbles (like, message, email icons) taped around the figure's head like
-> noise. Cold desaturated palette, mustard notification accents, brick-red background block,
-> hand-drawn arrow pointing down the endless feed with marker label "just five more minutes".
-> 16:9.
-
-### IMG-03 · `images/03-dead-group-chat.png` — Dead group chat / cancelled plans
-Master Style Block +
-> A flat-color cutout phone showing a paper group-chat with speech bubbles reading "let's
-> catch up soon" and "next time!", the bubbles literally crumbling into torn paper scraps at
-> the bottom. A cutout calendar page beside it with every day left blank, one plan crossed out
-> in hand-drawn red ink. Teal background, muted palette, tape marks, handwritten annotation
-> "the plans that never happen". 16:9.
-
----
-
-## SCENE 2 — THE PROBLEM (15–30s) · the cost
-
-### IMG-04 · `images/04-couple-apart.png` — Physically close, emotionally gone
-Master Style Block +
-> Close-up: two hand-cut paper figures sitting on a torn-paper couch, physically close but each
-> lit by the cold glow of a flat-color cutout phone, faces turned away from each other. A
-> halftone archival photo of an embracing couple is torn and half-covered by the phone cutout,
-> symbolizing what's being replaced. Hand-drawn dotted arrow and a small marker-style speech
-> bubble reading "text back later". Muted vintage palette with a single mustard-yellow accent,
-> visible paper grain and tape. 16:9.
-
-### IMG-05 · `images/05-data-decline.png` — The data beat
-Master Style Block +
-> A declining bar chart where each bar is a stack of cutout paper people that get shorter and
-> shorter, labeled in cutout letters "TIME SPENT WITH FRIENDS IN PERSON". Beside it a flat-color
-> cutout smartphone with a rising red usage line drawn in ink. Hand-drawn black ink arrows
-> connect the rising phone line to the shrinking people. Brick-red background block, cream paper
-> texture, torn edges, tape marks, handwritten annotation numbers along the axis. 16:9.
-
----
-
-## SCENE 3 — THE IDEA (30–50s) · TRYB enters
-
-### IMG-06 · `images/06-tryb-reveal.png` — Brand reveal
-Master Style Block +
-> A calm brand-reveal frame: the lowercase cursive wordmark "tryb" rendered as a single clean
-> hand-cut cream paper shape, taped at a slight angle in the center of a warm mustard-yellow
-> cardstock background — the FIRST warm, hopeful frame after the cold problem scenes. Minimal:
-> a few small torn-paper confetti shapes and one hand-drawn ink underline. Lots of clean
-> negative space. 16:9.
-> (NOTE: reuse the existing brand `tryb` wordmark from LOGO.jpg for exact letterforms.)
-
-### IMG-07 · `images/07-what-energizes-you.png` — Personality questions
-Master Style Block +
-> A flat-color cutout phone showing a paper questionnaire "WHAT ENERGIZES YOU?" with hand-cut
-> answer chips: "deep conversations", "outdoor adventures", "creative expression", "quiet time".
-> A paper hand reaches in to tap one chip. Warm teal-and-mustard palette (mood has turned
-> hopeful), tape marks, hand-drawn checkmark in ink beside a chosen answer. 16:9.
-
-### IMG-08 · `images/08-real-experiences.png` — Curated real experiences
-Master Style Block +
-> A cutout "you're invited" invitation card at the center, surrounded by a fan of pasted
-> halftone-dot archival photos of real-world experiences: latte art, a hiker on a ridge, a
-> shared dinner table, hands throwing pottery, a board-game night. Each photo torn and taped at
-> a playful angle. Warm saturated palette, hand-drawn ink arrows linking the card to each
-> experience, marker label "real people, real experiences". 16:9.
-
----
-
-## SCENE 4 — HOW IT WORKS (50–65s) · the mechanism
-
-### IMG-09 · `images/09-curated-matches.png` — TRYB curates your people
-Master Style Block +
-> A constellation of hand-cut circular paper portraits (five diverse smiling faces as
-> halftone-dot cutouts) connected to a central tryb badge by hand-drawn ink lines and small
-> taped paper strings, like a friendship map. Warm mustard background, teal accent circles,
-> paper grain, marker annotation "matched on what you love". 16:9.
-
-### IMG-10 · `images/10-invitation-gathering.png` — Invitation → real gathering
-Master Style Block +
-> Split collage: on the left a flat-color cutout phone shows a paper invitation "SATURDAY 7PM ·
-> SUNSET DINNER"; a hand-drawn ink arrow sweeps from the phone across to the right, where a
-> hand-cut paper small group sits laughing around a torn-paper dinner table under a string of
-> cutout warm bulb lights. Warm saturated palette, tape marks, handwritten label "from screen
-> to table". 16:9.
-
----
-
-## SCENE 5 — THE EMOTION (65–80s) · the payoff
-
-### IMG-11 · `images/11-real-connection.png` — Real connection, full color
-Master Style Block +
-> A warm, joyful collage of real-life bonding: hand-cut paper friends laughing together, a
-> sunset dinner, a walk side by side. Here the halftone archival photos are now FULLY saturated
-> and vivid (no longer faded) — the real world has replaced the phone. No phones anywhere in
-> frame. Warm golden palette, one bright mustard accent, celebratory torn-paper confetti,
-> hand-drawn ink hearts. 16:9.
-
----
-
-## SCENE 6 — THE ENDING (80–90s) · call to action
-
-### IMG-12 · `images/12-endcard.png` — Closing brand card
-Master Style Block +
-> A clean closing card on cream cardstock: bold stacked cutout paper-letter headline "YOUR
-> PEOPLE ARE OUT THERE", the cursive "tryb" wordmark below it, and a hand-cut rounded paper
-> "JOIN TRYB" button in a bold accent color. Minimal, confident, lots of negative space, one
-> hand-drawn ink underline flourish. Warm mustard + cream palette. 16:9.
-> (NOTE: reuse the existing brand `tryb` wordmark from LOGO.jpg.)
-
----
-
-## Optional supporting assets (nice-to-have, not required)
-- `images/tex-paper.png` — a seamless cream cardstock/paper-grain texture for overlay in edit.
-- `images/tex-grain.png` — a subtle film-grain overlay.
-- A short handful of loose PNG cutouts (arrows, tape strips, torn hearts) on transparent
-  background for animating on top at 12fps if this becomes a motion piece.
-
----
-
-## Summary — 12 required images
-
-| # | Filename | Scene | Beat |
-|---|----------|-------|------|
-| 01 | 01-hook-thumbnail.png | 1 Hook | Alone, together (thumbnail) |
-| 02 | 02-endless-scroll.png | 1 Hook | Endless scrolling |
-| 03 | 03-dead-group-chat.png | 1 Hook | Dead group chats / cancelled plans |
-| 04 | 04-couple-apart.png | 2 Problem | Close but disconnected |
-| 05 | 05-data-decline.png | 2 Problem | The data (time with friends falling) |
-| 06 | 06-tryb-reveal.png | 3 Idea | Brand reveal |
-| 07 | 07-what-energizes-you.png | 3 Idea | Personality questions |
-| 08 | 08-real-experiences.png | 3 Idea | Curated real experiences |
-| 09 | 09-curated-matches.png | 4 How it works | Matched to your people |
-| 10 | 10-invitation-gathering.png | 4 How it works | Invitation → gathering |
-| 11 | 11-real-connection.png | 5 Emotion | Real connection (payoff) |
-| 12 | 12-endcard.png | 6 Ending | Your people are out there / CTA |
-
-**Motion note:** Vox graphics are animated at 12fps within a 24fps timeline for a tactile
-stop-motion feel — worth doing in the edit if this becomes a video.
+Edit `EDIT` at the top of `build/render.py` to change shot order, duration, framing mode
+(`fill` = motion crop, `fit` = whole composition) or move (`push_in`, `push_out`, `pan_down`,
+`pan_right`, `hold_push`).

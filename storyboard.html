@@ -1,217 +1,268 @@
-<title>TRYB — Vox Collage Storyboard</title>
+<title>TRYB — Vox Collage Film · Edit Sheet</title>
 <style>
   :root{
-    --paper:#F1EAD8; --paper-2:#E9E0C9; --ink:#211C15; --ink-soft:#5B5240;
-    --mustard:#E0A62A; --brick:#BC4A31; --teal:#2C7A72;
-    --tape:rgba(224,166,42,.32); --line:#CFC3A3;
-    --shadow:0 1px 0 rgba(33,28,21,.05), 0 14px 28px -18px rgba(33,28,21,.45);
+    --paper:#F3EBDC; --card:#FBF6EA; --ink:#1F1A14; --ink-soft:#6A5F4C;
+    --orange:#EB642E; --cream:#F2DCC4; --mustard:#D9971A; --teal:#186A66; --brick:#A93A24;
+    --line:#D6C9AC; --tape:rgba(235,100,46,.22);
     --mono:"SF Mono",ui-monospace,"Cascadia Mono","Roboto Mono",Menlo,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   }
+  :root[data-theme="dark"],
+  :root:not([data-theme="light"]){}
+  @media (prefers-color-scheme: dark){
+    :root{--paper:#171310; --card:#221B15; --ink:#F2E7D5; --ink-soft:#A2937B;
+          --line:#3B3025; --tape:rgba(235,100,46,.28);}
+  }
+  :root[data-theme="dark"]{--paper:#171310; --card:#221B15; --ink:#F2E7D5; --ink-soft:#A2937B;
+          --line:#3B3025; --tape:rgba(235,100,46,.28);}
+  :root[data-theme="light"]{--paper:#F3EBDC; --card:#FBF6EA; --ink:#1F1A14; --ink-soft:#6A5F4C;
+          --line:#D6C9AC; --tape:rgba(235,100,46,.22);}
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{
-    margin:0;color:var(--ink);background:var(--paper);font-family:var(--sans);
-    line-height:1.55;
-    background-image:
-      radial-gradient(rgba(33,28,21,.035) 1px, transparent 1.4px),
-      radial-gradient(rgba(33,28,21,.025) 1px, transparent 1.4px);
-    background-size:5px 5px, 5px 5px;
-    background-position:0 0, 2.5px 2.5px;
-  }
-  .wrap{max-width:1120px;margin:0 auto;padding:clamp(24px,5vw,64px) clamp(18px,4vw,40px) 96px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,60px) clamp(18px,4vw,40px) 90px}
 
-  /* ---- Masthead ---- */
-  header{border-bottom:3px solid var(--ink);padding-bottom:22px;margin-bottom:8px}
-  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brick);font-weight:600}
-  h1{
-    font-size:clamp(38px,8vw,84px);line-height:.92;margin:.18em 0 .1em;font-weight:850;
-    letter-spacing:-.02em;text-wrap:balance;
-  }
-  h1 .cut{display:inline-block}
-  h1 .cut:nth-child(1){transform:rotate(-2.5deg)}
-  h1 .cut:nth-child(2){transform:rotate(1.5deg);color:var(--brick)}
-  .dek{max-width:60ch;font-size:clamp(15px,2vw,18px);color:var(--ink-soft);margin:.4em 0 0}
-  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:20px}
-  .chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
-    background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
-  .chip b{color:var(--teal)}
+  header{border-bottom:3px solid var(--orange);padding-bottom:20px}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);font-weight:700}
+  h1{font-size:clamp(34px,7vw,68px);line-height:.95;margin:.16em 0 .12em;font-weight:850;letter-spacing:-.025em;text-wrap:balance}
+  h1 em{font-style:normal;color:var(--orange)}
+  .dek{max-width:64ch;color:var(--ink-soft);font-size:clamp(15px,1.9vw,17.5px);margin:.35em 0 0}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+  .chip b{color:var(--orange)}
 
-  /* ---- Scene band ---- */
-  .scene{margin-top:56px;scroll-margin-top:20px}
-  .scene-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
-    border-bottom:1.5px solid var(--line);padding-bottom:10px;margin-bottom:24px}
-  .scene-no{font-family:var(--mono);font-weight:700;font-size:13px;color:#fff;background:var(--ink);
-    padding:3px 9px;border-radius:5px;transform:rotate(-1.5deg)}
-  .scene-title{font-size:clamp(19px,3vw,26px);font-weight:800;letter-spacing:-.01em}
-  .scene-time{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-left:auto;letter-spacing:.04em}
-  .scene-note{font-size:14px;color:var(--ink-soft);font-style:italic;flex-basis:100%;margin-top:2px}
+  .player{margin:30px 0 8px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;
+    box-shadow:0 20px 44px -26px rgba(31,26,20,.6)}
+  .player video{display:block;width:100%;height:auto}
+  .cap{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.04em;margin:0 0 34px}
 
-  /* ---- Shot grid ---- */
-  .grid{display:grid;gap:26px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
-  .shot{background:#FBF7EC;border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);
-    position:relative;display:flex;flex-direction:column;transform:rotate(var(--rot,0deg));transition:transform .18s ease}
-  .shot:hover{transform:rotate(0deg) translateY(-2px)}
-  .shot::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-3deg);
-    width:74px;height:22px;background:var(--tape);border:1px dashed rgba(33,28,21,.18);border-radius:2px}
-  .slot{aspect-ratio:16/9;background:var(--paper-2);border-bottom:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-  .slot img{width:100%;height:100%;object-fit:cover;display:block}
-  .slot .ph{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:16px;color:var(--ink-soft)}
-  .slot .ph .beat{font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.01em}
-  .slot .ph .await{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
-  .accent{position:absolute;inset:auto auto 8px 8px;width:14px;height:14px;border-radius:3px}
-  .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
-  .idline{display:flex;align-items:center;gap:8px;justify-content:space-between}
-  .id{font-family:var(--mono);font-weight:700;font-size:13px}
-  .file{font-family:var(--mono);font-size:11px;color:var(--ink-soft);word-break:break-all}
-  .prompt{font-size:13.5px;color:#38311f;background:var(--paper);border:1px solid var(--line);
-    border-radius:4px;padding:10px 12px;margin:0}
-  .copy{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-    cursor:pointer;border:1.5px solid var(--ink);background:transparent;color:var(--ink);
-    padding:6px 12px;border-radius:5px;font-weight:600;transition:background .15s,color .15s}
-  .copy:hover{background:var(--ink);color:var(--paper)}
-  .copy:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
-  .copy.ok{background:var(--teal);border-color:var(--teal);color:#fff}
+  h2{font-size:clamp(20px,3vw,27px);letter-spacing:-.015em;margin:0 0 4px;font-weight:820}
+  .sec{margin-top:44px}
+  .sec-rule{height:3px;background:var(--ink);margin-bottom:18px;border-radius:2px}
 
-  /* ---- Style block callout ---- */
-  .style-note{margin-top:44px;background:var(--paper-2);border:1.5px dashed var(--ink);border-radius:6px;
-    padding:20px 22px}
-  .style-note h2{margin:0 0 8px;font-size:17px;letter-spacing:-.01em}
-  .style-note p{margin:0 0 12px;font-size:14px;color:var(--ink-soft);max-width:70ch}
-  .style-note pre{margin:0;font-family:var(--mono);font-size:12px;line-height:1.6;white-space:pre-wrap;
-    background:#FBF7EC;border:1px solid var(--line);border-radius:4px;padding:14px 16px;overflow-x:auto}
+  /* timeline ribbon */
+  .tl{display:flex;height:44px;border:1px solid var(--line);border-radius:5px;overflow:hidden;margin:18px 0 6px}
+  .tl div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;
+    font-weight:700;color:#fff;letter-spacing:.06em;min-width:0;overflow:hidden;white-space:nowrap}
+  .tl-key{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:26px}
 
-  footer{margin-top:56px;border-top:1.5px solid var(--line);padding-top:16px;
-    font-family:var(--mono);font-size:12px;color:var(--ink-soft);letter-spacing:.03em}
-  @media (prefers-reduced-motion:reduce){.shot,.copy{transition:none}}
+  .shots{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+  .shot{background:var(--card);border:1px solid var(--line);border-radius:5px;overflow:hidden;
+    display:flex;flex-direction:column;position:relative;box-shadow:0 10px 22px -18px rgba(31,26,20,.6)}
+  .shot::before{content:"";position:absolute;z-index:2;top:-10px;left:24px;width:64px;height:20px;
+    background:var(--tape);border:1px dashed rgba(120,90,60,.3);transform:rotate(-4deg)}
+  .thumb{aspect-ratio:16/9;background:#0d0b09;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb.fit img{object-fit:contain}
+  .info{padding:13px 15px 15px;display:flex;flex-direction:column;gap:7px;flex:1}
+  .row1{display:flex;align-items:baseline;gap:9px;justify-content:space-between}
+  .tc{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+  .dur{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+  .beat{font-weight:750;font-size:15.5px;letter-spacing:-.01em}
+  .vo{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin:0}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
+  .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid var(--line);border-radius:3px;padding:3px 6px;color:var(--ink-soft)}
+  .src{font-family:var(--mono);font-size:10px;color:var(--ink-soft);word-break:break-all;opacity:.75}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:5px;background:var(--card)}
+  th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  tr:last-child td{border-bottom:none}
+  td.f{font-family:var(--mono);font-size:12px}
+  .use{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;color:#fff}
+  .u-cut{background:var(--teal)} .u-alt{background:var(--ink-soft)} .u-ast{background:var(--mustard)}
+
+  .notes{margin-top:16px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--orange);
+    border-radius:4px;padding:14px 16px}
+  .note h3{margin:0 0 5px;font-size:14.5px;letter-spacing:-.005em}
+  .note p{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .note.warn{border-left-color:var(--brick)}
+
+  .swatches{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .sw{border:1px solid var(--line);border-radius:4px;overflow:hidden;width:118px;background:var(--card)}
+  .sw i{display:block;height:52px}
+  .sw span{display:block;font-family:var(--mono);font-size:10px;padding:6px 8px;color:var(--ink-soft)}
+  .sw b{display:block;color:var(--ink);font-size:11px}
+
+  footer{margin-top:54px;border-top:1px solid var(--line);padding-top:15px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}
 </style>
 
 <div class="wrap">
   <header>
-    <div class="kicker">Production Board · Vox-style paper-cutout explainer · 16:9</div>
-    <h1><span class="cut">Alone,</span> <span class="cut">Together</span></h1>
-    <p class="dek">A 90-second TRYB brand film reimagined as a Vox.com explainer collage — hand-cut paper,
-      halftone archival photos, ink annotations. The palette turns cold to warm as the story moves from
-      isolation to real connection. Generate each shot, drop the PNG into <code>images/</code>, and this board fills in.</p>
+    <div class="kicker">Final delivery · Vox-style paper-cutout explainer</div>
+    <h1>Alone, Together — <em>a tryb film</em></h1>
+    <p class="dek">Seventeen collage frames cut to 87 seconds. The palette walks the story from cold blue
+      isolation through brick-red overload into tryb orange, and the whole thing is animated on twos —
+      12&nbsp;fps inside a 24&nbsp;fps timeline — so it keeps the tactile stutter of paper moved by hand.</p>
     <div class="meta">
-      <span class="chip"><b>12</b>&nbsp; required shots</span>
-      <span class="chip"><b>6</b>&nbsp; scenes</span>
-      <span class="chip">~90&nbsp;sec</span>
-      <span class="chip">16:9</span>
-      <span class="chip">12fps stop-motion feel</span>
+      <span class="chip"><b>87</b>&nbsp;sec</span>
+      <span class="chip"><b>17</b>&nbsp;cuts</span>
+      <span class="chip">1920×1080</span>
+      <span class="chip">12 fps on 24</span>
+      <span class="chip">6 scenes</span>
+      <span class="chip">no dialogue</span>
     </div>
   </header>
 
-  <div id="board"></div>
-
-  <div class="style-note">
-    <h2>Master style block — paste at the start of every prompt</h2>
-    <p>This is what keeps all 12 frames reading as one Vox production instead of 12 unrelated collages.
-      Then append the per-shot description above. Keep to 3–4 flat tones per frame; one saturated accent.</p>
-    <pre id="styleblock"></pre>
-    <button class="copy" data-copy="styleblock" style="margin-top:12px">Copy style block</button>
+  <div class="player">
+    <video id="film" controls preload="metadata" poster="poster.jpg" playsinline>
+      <source id="filmsrc" src="tryb-vox-collage-90s.mp4" type="video/mp4">
+    </video>
   </div>
+  <p class="cap">tryb-vox-collage-90s.mp4 · 1080p master, 26 MB — a 720p/7 MB cut ships alongside for social and email.</p>
 
-  <footer>TRYB × Vox collage · storyboard.html · cold-to-warm color arc · animate at 12fps within 24fps</footer>
+  <section class="sec">
+    <div class="sec-rule"></div>
+    <h2>The cut</h2>
+    <div class="tl" id="tl"></div>
+    <div class="tl-key"><span>0:00</span><span>0:43</span><span>1:27</span></div>
+    <div class="shots" id="shots"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-rule"></div>
+    <h2>Colour arc</h2>
+    <p class="dek">Each scene owns one flat ground. The film never mixes them, which is what keeps 17
+      separately-generated frames reading as a single production.</p>
+    <div class="swatches" id="sw"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-rule"></div>
+    <h2>Every asset supplied</h2>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>File</th><th>Use</th><th>Native</th><th>Where it landed</th></tr></thead>
+        <tbody id="assets"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-rule"></div>
+    <h2>Production notes</h2>
+    <div class="notes" id="notes"></div>
+  </section>
+
+  <footer>tryb × Vox collage · 17 cuts · 87 s · rendered on twos · build/render.py regenerates the film from the stills</footer>
 </div>
 
 <script>
-const STYLE = `Editorial paper-cutout collage illustration in the style of Vox.com explainer videos. Hand-cut paper figures with visible torn and rough-cut edges, layered on a cream/off-white textured cardstock background. Halftone-dot archival photographs cut out and pasted at angles. Bold flat single-color background blocks (mustard yellow, brick red, teal), no gradients. Visible strips of tape and paper drop-shadows. Hand-drawn black ink annotation arrows, circles and marker-style handwritten labels. Bold cutout typography made of stacked, slightly rotated paper letters. Grainy paper texture overlay, slight film grain, muted vintage color grade with one saturated accent color. Flat overhead lighting, no 3D rendering — everything reads as physically assembled paper craft photographed from directly above. High detail, 16:9, clean negative space for text.`;
+/* MEDIA is empty when the page is opened from the repo (real files sit alongside it).
+   build/embed.py fills it with data URIs to produce a self-contained copy. */
+const MEDIA = window.MEDIA || {};
+const media = f => MEDIA[f] || encodeURI(f);
 
-const ACCENT = {mustard:'#E0A62A', brick:'#BC4A31', teal:'#2C7A72'};
+const SC = {
+  1:{name:"Hook",   color:"#123F45"},
+  2:{name:"Problem",color:"#A93A24"},
+  3:{name:"Idea",   color:"#D9971A"},
+  4:{name:"Works",  color:"#C9631F"},
+  5:{name:"Emotion",color:"#EB642E"},
+  6:{name:"Ending", color:"#D2451A"},
+};
 
-const SCENES = [
-  {no:'01', title:'The Hook — alone together', time:'0–15 s', note:'Cold, desaturated. The problem lands before a single word.',
-   shots:[
-     {id:'IMG-01', file:'01-hook-thumbnail.png', beat:'Alone, together (thumbnail)', accent:'teal',
-      prompt:`A hand-cut paper crowd at a party, each figure isolated in its own pool of cold blue phone-glow, all staring down at flat-color cutout phones instead of each other. A halftone archival photo of an old-fashioned group hug is torn and pasted in the corner, fading. A hand-drawn red ink arrow circles one disconnected figure. Big cutout paper-letter headline "ALONE, TOGETHER" across the top. Flat teal background, mustard accents.`},
-     {id:'IMG-02', file:'02-endless-scroll.png', beat:'Endless scrolling', accent:'brick',
-      prompt:`A single hand-cut paper figure hunched over an oversized flat-color cutout smartphone, an endlessly long torn-paper feed strip unspooling from the phone and pooling on the floor. Cutout notification bubbles taped around the figure's head like noise. Cold desaturated palette, mustard notification accents, brick-red background block, hand-drawn arrow down the feed with marker label "just five more minutes".`},
-     {id:'IMG-03', file:'03-dead-group-chat.png', beat:'Dead group chats / cancelled plans', accent:'teal',
-      prompt:`A flat-color cutout phone showing a paper group-chat with bubbles reading "let's catch up soon" and "next time!", the bubbles crumbling into torn scraps at the bottom. A cutout calendar page beside it, every day blank, one plan crossed out in red ink. Teal background, muted palette, tape marks, handwritten annotation "the plans that never happen".`},
-   ]},
-  {no:'02', title:'The Problem — the cost', time:'15–30 s', note:'Still cold. The emotional and the statistical, back to back.',
-   shots:[
-     {id:'IMG-04', file:'04-couple-apart.png', beat:'Close but disconnected', accent:'mustard',
-      prompt:`Close-up: two hand-cut paper figures on a torn-paper couch, physically close but each lit by cold phone-glow, faces turned away. A halftone archival photo of an embracing couple is torn and half-covered by the phone cutout — what's being replaced. Hand-drawn dotted arrow and a small marker speech bubble reading "text back later". Muted vintage palette, single mustard accent, paper grain and tape.`},
-     {id:'IMG-05', file:'05-data-decline.png', beat:'The data', accent:'brick',
-      prompt:`A declining bar chart where each bar is a stack of cutout paper people getting shorter, labeled in cutout letters "TIME SPENT WITH FRIENDS IN PERSON". Beside it a flat-color cutout smartphone with a rising red usage line in ink. Hand-drawn black arrows connect the rising phone line to the shrinking people. Brick-red background block, torn edges, tape, handwritten axis numbers.`},
-   ]},
-  {no:'03', title:'The Idea — TRYB enters', time:'30–50 s', note:'First warm frame. Palette shifts to mustard + teal — hope arrives.',
-   shots:[
-     {id:'IMG-06', file:'06-tryb-reveal.png', beat:'Brand reveal', accent:'mustard',
-      prompt:`A calm brand reveal: the lowercase cursive wordmark "tryb" as a single clean hand-cut cream paper shape, taped at a slight angle, centered on warm mustard-yellow cardstock — the first warm frame after the cold scenes. Minimal: a few torn-paper confetti shapes and one hand-drawn ink underline. Lots of clean negative space. (Reuse exact letterforms from LOGO.jpg.)`},
-     {id:'IMG-07', file:'07-what-energizes-you.png', beat:'Personality questions', accent:'teal',
-      prompt:`A flat-color cutout phone showing a paper questionnaire "WHAT ENERGIZES YOU?" with hand-cut answer chips: "deep conversations", "outdoor adventures", "creative expression", "quiet time". A paper hand taps one chip. Warm teal-and-mustard palette, tape marks, hand-drawn ink checkmark beside a chosen answer.`},
-     {id:'IMG-08', file:'08-real-experiences.png', beat:'Curated real experiences', accent:'mustard',
-      prompt:`A cutout "you're invited" card at center, surrounded by a fan of pasted halftone archival photos of real experiences: latte art, a hiker on a ridge, a shared dinner table, hands throwing pottery, a board-game night — each torn and taped at a playful angle. Warm saturated palette, hand-drawn ink arrows linking the card to each experience, marker label "real people, real experiences".`},
-   ]},
-  {no:'04', title:'How It Works — the mechanism', time:'50–65 s', note:'Warm. Screen-to-table: the app is the bridge, not the destination.',
-   shots:[
-     {id:'IMG-09', file:'09-curated-matches.png', beat:'Matched to your people', accent:'teal',
-      prompt:`A constellation of hand-cut circular paper portraits (five diverse smiling halftone faces) connected to a central tryb badge by hand-drawn ink lines and small taped paper strings, like a friendship map. Warm mustard background, teal accent circles, paper grain, marker annotation "matched on what you love".`},
-     {id:'IMG-10', file:'10-invitation-gathering.png', beat:'Invitation → gathering', accent:'mustard',
-      prompt:`Split collage: left, a flat-color cutout phone shows a paper invitation "SATURDAY 7PM · SUNSET DINNER"; a hand-drawn ink arrow sweeps across to the right, where a hand-cut paper small group laughs around a torn-paper dinner table under a string of cutout warm bulb lights. Warm saturated palette, tape marks, handwritten label "from screen to table".`},
-   ]},
-  {no:'05', title:'The Emotion — the payoff', time:'65–80 s', note:'Fully saturated. No phones in frame. The archival photo is now the living present.',
-   shots:[
-     {id:'IMG-11', file:'11-real-connection.png', beat:'Real connection', accent:'mustard',
-      prompt:`A warm, joyful collage of real-life bonding: hand-cut paper friends laughing, a sunset dinner, a walk side by side. The halftone archival photos are now FULLY saturated and vivid — the real world has replaced the phone. No phones anywhere. Warm golden palette, one bright mustard accent, celebratory torn-paper confetti, hand-drawn ink hearts.`},
-   ]},
-  {no:'06', title:'The Ending — call to action', time:'80–90 s', note:'Confident, minimal end card.',
-   shots:[
-     {id:'IMG-12', file:'12-endcard.png', beat:'Your people are out there', accent:'brick',
-      prompt:`A clean closing card on cream cardstock: bold stacked cutout paper-letter headline "YOUR PEOPLE ARE OUT THERE", the cursive "tryb" wordmark below, and a hand-cut rounded paper "JOIN TRYB" button in a bold accent color. Minimal, confident, lots of negative space, one hand-drawn ink underline flourish. Warm mustard + cream palette. (Reuse wordmark from LOGO.jpg.)`},
-   ]},
+const CUT = [
+ ["01-hook-thumbnail.png",1,0,4.5,"A room full of people, all gone","Photoreal cold open — the only frame with no paper in it. Establishes the world before the essay starts.","push in","fill"],
+ ["01-hook-thumbnail3.png",1,4.5,3.5,"ALONE, TOGETHER.","Torn newsprint headline on teal. The thesis, stated once, never repeated.","slow push","fill"],
+ ["02-endless-scroll.png",1,8,6.5,"Just five more minutes","Pan travels down the unspooling feed to the pile on the floor — the move does the argument.","pan down","fill"],
+ ["03-dead-group-chat.png",1,14.5,6,"The plans that never happen","'let's catch up soon' crumbling to dust beside an empty calendar.","pan down","fill"],
+ ["04-couple-apart.png",2,20.5,4.5,"Close, and nowhere near","Photoreal again — two people on one couch, two separate rooms.","push in","fill"],
+ ["04-couple-apart.png1.png",2,25,4.5,"text back later.","The same beat as collage: a halftone embrace torn away by a phone. Photo then paper, twice in a row.","slow push","fill"],
+ ["05-data-decline.png",2,29.5,5.5,"7h 42m","The data beat. Paper people shrink, screen time climbs, 'VS.' sits between them.","pan down","fill"],
+ ["01-hook-thumbnail2.png",2,35,3.5,"What it replaced","A torn halftone group hug alone on cream. The quietest frame in the film — and the turn.","pull out","fill"],
+ ["06-tryb-reveal.png",3,38.5,4,"tryb","First warm frame. Wordmark cut from cream stock, taped down. Nothing else on screen.","slow push","fit"],
+ ["07-what-energizes-you.png",3,42.5,6,"What energizes you?","Pan down the questionnaire to the paper hand choosing. The product, explained without a word.","pan down","fill"],
+ ["08-real-experiences.png",3,48.5,5,"You're invited","Halftone photographs of actual things to do, fanned like prints on a table.","push in","fill"],
+ ["09-curated-matches.png",4,53.5,5,"Matched on what you love","Five faces strung to a tryb badge. The mechanism in one image.","pan down","fill"],
+ ["10-invitation-gathering.png",4,58.5,6,"From screen to table","The pivot frame: the ink arrow leaves the phone and lands in full colour. Only place colour crosses the tear.","pan right","fill"],
+ ["11-real-connection1.png",5,64.5,6,"Joyful bonding","Full saturation, no phones anywhere in frame. The payoff.","push in","fill"],
+ ["11-real-connection.png",5,70.5,5,"real people, real experiences","Breathing room on cream before the CTA — confetti, ink hearts, no product.","pan right","fill"],
+ ["12-endcard.png",6,75.5,5,"YOUR PEOPLE ARE OUT THERE","Stacked cutout letters, each strip a different stock.","slow push","fit"],
+ ["12-endcard1.png",6,80.5,6.5,"JOIN TRYB","Lands on brand orange and holds. The final 6.5 s is the only static-feeling beat in the film.","hold","fit"],
 ];
 
-function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+const ASSETS = [
+ ["01-hook-thumbnail.png","cut","1536×1024","Opening frame, 0:00"],
+ ["01-hook-thumbnail.png1.png","alt","1536×1024","Alternate crowd — wider, less legible faces. Held in reserve."],
+ ["01-hook-thumbnail2.png","cut","1402×1122","Moved to Scene 2 as the emotional turn at 0:35"],
+ ["01-hook-thumbnail3.png","cut","1536×1024","Title card, 0:04"],
+ ["02-endless-scroll.png","cut","1086×1448","0:08 — vertical pan"],
+ ["03-dead-group-chat.png","cut","1122×1402","0:14 — vertical pan"],
+ ["04-couple-apart.png","cut","1402×1122","0:20"],
+ ["04-couple-apart.png1.png","cut","1402×1122","0:25 — paired with the photoreal version"],
+ ["05-data-decline.png","cut","1402×1122","0:29"],
+ ["06-tryb-reveal.png","cut","1402×1122","0:38 — brand turn"],
+ ["07-what-energizes-you.png","cut","1122×1402","0:42 — vertical pan"],
+ ["08-real-experiences.png","cut","1254×1254","0:48"],
+ ["08-real-experiences1.png","alt","1254×1254","Teal version. Off the palette arc at this point — kept as a social still."],
+ ["09-curated-matches.png","cut","1402×1122","0:53"],
+ ["10-invitation-gathering.png","cut","1402×1122","0:58 — the pivot"],
+ ["10-invitation-gathering1.png","alt","1402×1122","Orange variant, cleaner UI. Strong alternate if the pivot needs to sit on brand colour."],
+ ["11-real-connection.png","cut","1402×1122","1:10"],
+ ["11-real-connection1.png","cut","1402×1122","1:04 — leads the scene, being the warmer of the two"],
+ ["12-endcard.png","cut","1086×1448","1:15"],
+ ["12-endcard1.png","cut","1448×1086","1:20 — final hold"],
+ ["Blank cream paper texture.png","ast","1448×1086","Available for lower-thirds and title plates in future cuts"],
+ ["Brand Palette Background Color.png","ast","1534×751","Source of record for #EB642E / #F2DCC4"],
+ ["transparent PNG cutouts (arrows, tape, hearts).png","ast","1536×1024","Element sheet — see note on transparency"],
+ ["LOGO.jpg","ast","1536×751","Wordmark reference; letterforms matched in 06 and 12"],
+];
 
-const rots=['-1deg','.8deg','-.6deg','1deg','-.9deg'];
-let ri=0;
-const board=document.getElementById('board');
-board.innerHTML = SCENES.map(sc=>`
-  <section class="scene">
-    <div class="scene-head">
-      <span class="scene-no">SC ${sc.no}</span>
-      <span class="scene-title">${esc(sc.title)}</span>
-      <span class="scene-time">${esc(sc.time)}</span>
-      <span class="scene-note">${esc(sc.note)}</span>
+const NOTES = [
+ ["Nothing arrived at 16:9","Native ratios ran 0.75 to 1.50. Rather than crop text off the collages, tall frames became vertical pans and card-like frames sit on a field extended from their own matched edge colour. On 02 the pan is a gift — you follow the feed down.",0],
+ ["Two visual registers, used deliberately","Some shots came back photoreal, some as true paper collage. That is how Vox actually works, so the cut alternates: photoreal states the fact, collage argues about it. Shots 04 and 04-1 run the same beat both ways, back to back.",0],
+ ["The cutout sheet is not transparent","'transparent PNG cutouts' has a baked olive-gradient background, so the arrows and tape can't be layered as-is. It needs a re-render on true alpha before it can be animated over frames.",1],
+ ["Two logo colourways in play","The wordmark is cream on 06 and 12, orange on 07, 09 and 10. Both read fine in sequence, but worth locking one rule before the next round.",1],
+ ["Rendered on twos","Frames were generated at 12 fps and encoded to 24, so the stutter is in the footage rather than applied as a filter. Film grain is composited per frame from a rotating pool of eight tiles.",0],
+ ["Silent by design","Every frame carries its own typography, so no captions were added — they would fight the paper. The film wants a music bed and, optionally, sparse VO; it does not want lower-thirds.",0],
+];
+
+const PAL = [["#123F45","Hook teal","Scene 1"],["#A93A24","Overload brick","Scene 2"],
+  ["#D9971A","Turn mustard","Scene 3"],["#EB642E","tryb orange","Scenes 4–6"],
+  ["#F2DCC4","Stock cream","Throughout"],["#1F1A14","Ink","Annotation"]];
+
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tc=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+const TOTAL=87;
+
+document.getElementById('tl').innerHTML = CUT.map(c=>
+  `<div style="flex:${c[3]};background:${SC[c[1]].color}" title="${esc(c[4])} — ${tc(c[2])}">${c[3]>=5?esc(SC[c[1]].name):''}</div>`).join('');
+
+document.getElementById('shots').innerHTML = CUT.map(c=>`
+  <article class="shot">
+    <div class="thumb ${c[7]==='fit'?'fit':''}"><img src="${media(c[0])}" alt="${esc(c[4])}" loading="lazy"></div>
+    <div class="info">
+      <div class="row1"><span class="tc">${tc(c[2])}</span><span class="dur">${c[3].toFixed(1)}s · ${esc(c[6])}</span></div>
+      <div class="beat">${esc(c[4])}</div>
+      <p class="vo">${esc(c[5])}</p>
+      <div class="tags">
+        <span class="tag" style="border-color:${SC[c[1]].color};color:${SC[c[1]].color}">SC ${c[1]} ${esc(SC[c[1]].name)}</span>
+        <span class="tag">${c[7]==='fit'?'full frame':'motion crop'}</span>
+      </div>
+      <div class="src">${esc(c[0])}</div>
     </div>
-    <div class="grid">
-      ${sc.shots.map(s=>{
-        const rot=rots[(ri++)%rots.length];
-        const full = STYLE+'\\n\\n'+s.prompt;
-        return `<article class="shot" style="--rot:${rot}">
-          <div class="slot">
-            <img src="images/${s.file}" alt="${esc(s.beat)}" loading="lazy"
-                 onload="this.parentNode.querySelector('.ph').style.display='none'">
-            <div class="ph">
-              <span class="beat">${esc(s.beat)}</span>
-              <span class="await">awaiting art</span>
-            </div>
-            <span class="accent" style="background:${ACCENT[s.accent]}"></span>
-          </div>
-          <div class="body">
-            <div class="idline"><span class="id">${s.id}</span><span class="file">${esc(s.file)}</span></div>
-            <p class="prompt">${esc(s.prompt)}</p>
-            <button class="copy" data-full="${esc(full)}">Copy full prompt</button>
-          </div>
-        </article>`;
-      }).join('')}
-    </div>
-  </section>`).join('');
+  </article>`).join('');
 
-document.getElementById('styleblock').textContent = STYLE;
+document.getElementById('assets').innerHTML = ASSETS.map(a=>`
+  <tr><td class="f">${esc(a[0])}</td>
+      <td><span class="use u-${a[1]}">${a[1]==='cut'?'IN CUT':a[1]==='alt'?'ALT':'ASSET'}</span></td>
+      <td class="f">${a[2]}</td><td>${esc(a[3])}</td></tr>`).join('');
 
-document.addEventListener('click', async e=>{
-  const btn = e.target.closest('.copy'); if(!btn) return;
-  let text = btn.dataset.full;
-  if(!text && btn.dataset.copy) text = document.getElementById(btn.dataset.copy).textContent;
-  try{ await navigator.clipboard.writeText(text); }
-  catch(_){ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
-  const old=btn.textContent; btn.textContent='Copied ✓'; btn.classList.add('ok');
-  setTimeout(()=>{btn.textContent=old; btn.classList.remove('ok');},1400);
-});
+document.getElementById('notes').innerHTML = NOTES.map(n=>
+  `<div class="note${n[2]?' warn':''}"><h3>${esc(n[0])}</h3><p>${esc(n[1])}</p></div>`).join('');
+
+document.getElementById('sw').innerHTML = PAL.map(p=>
+  `<div class="sw"><i style="background:${p[0]}"></i><span><b>${p[1]}</b>${p[0]} · ${p[2]}</span></div>`).join('');
+
+if (MEDIA['__film__']) {
+  const v = document.getElementById('film');
+  document.getElementById('filmsrc').src = MEDIA['__film__'];
+  if (MEDIA['__poster__']) v.poster = MEDIA['__poster__'];
+  v.load();
+}
 </script>
