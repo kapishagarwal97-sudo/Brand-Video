@@ -1,0 +1,217 @@
+<title>TRYB — Vox Collage Storyboard</title>
+<style>
+  :root{
+    --paper:#F1EAD8; --paper-2:#E9E0C9; --ink:#211C15; --ink-soft:#5B5240;
+    --mustard:#E0A62A; --brick:#BC4A31; --teal:#2C7A72;
+    --tape:rgba(224,166,42,.32); --line:#CFC3A3;
+    --shadow:0 1px 0 rgba(33,28,21,.05), 0 14px 28px -18px rgba(33,28,21,.45);
+    --mono:"SF Mono",ui-monospace,"Cascadia Mono","Roboto Mono",Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;color:var(--ink);background:var(--paper);font-family:var(--sans);
+    line-height:1.55;
+    background-image:
+      radial-gradient(rgba(33,28,21,.035) 1px, transparent 1.4px),
+      radial-gradient(rgba(33,28,21,.025) 1px, transparent 1.4px);
+    background-size:5px 5px, 5px 5px;
+    background-position:0 0, 2.5px 2.5px;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:clamp(24px,5vw,64px) clamp(18px,4vw,40px) 96px}
+
+  /* ---- Masthead ---- */
+  header{border-bottom:3px solid var(--ink);padding-bottom:22px;margin-bottom:8px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brick);font-weight:600}
+  h1{
+    font-size:clamp(38px,8vw,84px);line-height:.92;margin:.18em 0 .1em;font-weight:850;
+    letter-spacing:-.02em;text-wrap:balance;
+  }
+  h1 .cut{display:inline-block}
+  h1 .cut:nth-child(1){transform:rotate(-2.5deg)}
+  h1 .cut:nth-child(2){transform:rotate(1.5deg);color:var(--brick)}
+  .dek{max-width:60ch;font-size:clamp(15px,2vw,18px);color:var(--ink-soft);margin:.4em 0 0}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:20px}
+  .chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+  .chip b{color:var(--teal)}
+
+  /* ---- Scene band ---- */
+  .scene{margin-top:56px;scroll-margin-top:20px}
+  .scene-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    border-bottom:1.5px solid var(--line);padding-bottom:10px;margin-bottom:24px}
+  .scene-no{font-family:var(--mono);font-weight:700;font-size:13px;color:#fff;background:var(--ink);
+    padding:3px 9px;border-radius:5px;transform:rotate(-1.5deg)}
+  .scene-title{font-size:clamp(19px,3vw,26px);font-weight:800;letter-spacing:-.01em}
+  .scene-time{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-left:auto;letter-spacing:.04em}
+  .scene-note{font-size:14px;color:var(--ink-soft);font-style:italic;flex-basis:100%;margin-top:2px}
+
+  /* ---- Shot grid ---- */
+  .grid{display:grid;gap:26px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  .shot{background:#FBF7EC;border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);
+    position:relative;display:flex;flex-direction:column;transform:rotate(var(--rot,0deg));transition:transform .18s ease}
+  .shot:hover{transform:rotate(0deg) translateY(-2px)}
+  .shot::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-3deg);
+    width:74px;height:22px;background:var(--tape);border:1px dashed rgba(33,28,21,.18);border-radius:2px}
+  .slot{aspect-ratio:16/9;background:var(--paper-2);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+  .slot img{width:100%;height:100%;object-fit:cover;display:block}
+  .slot .ph{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:16px;color:var(--ink-soft)}
+  .slot .ph .beat{font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.01em}
+  .slot .ph .await{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+  .accent{position:absolute;inset:auto auto 8px 8px;width:14px;height:14px;border-radius:3px}
+  .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .idline{display:flex;align-items:center;gap:8px;justify-content:space-between}
+  .id{font-family:var(--mono);font-weight:700;font-size:13px}
+  .file{font-family:var(--mono);font-size:11px;color:var(--ink-soft);word-break:break-all}
+  .prompt{font-size:13.5px;color:#38311f;background:var(--paper);border:1px solid var(--line);
+    border-radius:4px;padding:10px 12px;margin:0}
+  .copy{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    cursor:pointer;border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+    padding:6px 12px;border-radius:5px;font-weight:600;transition:background .15s,color .15s}
+  .copy:hover{background:var(--ink);color:var(--paper)}
+  .copy:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+  .copy.ok{background:var(--teal);border-color:var(--teal);color:#fff}
+
+  /* ---- Style block callout ---- */
+  .style-note{margin-top:44px;background:var(--paper-2);border:1.5px dashed var(--ink);border-radius:6px;
+    padding:20px 22px}
+  .style-note h2{margin:0 0 8px;font-size:17px;letter-spacing:-.01em}
+  .style-note p{margin:0 0 12px;font-size:14px;color:var(--ink-soft);max-width:70ch}
+  .style-note pre{margin:0;font-family:var(--mono);font-size:12px;line-height:1.6;white-space:pre-wrap;
+    background:#FBF7EC;border:1px solid var(--line);border-radius:4px;padding:14px 16px;overflow-x:auto}
+
+  footer{margin-top:56px;border-top:1.5px solid var(--line);padding-top:16px;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);letter-spacing:.03em}
+  @media (prefers-reduced-motion:reduce){.shot,.copy{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Production Board · Vox-style paper-cutout explainer · 16:9</div>
+    <h1><span class="cut">Alone,</span> <span class="cut">Together</span></h1>
+    <p class="dek">A 90-second TRYB brand film reimagined as a Vox.com explainer collage — hand-cut paper,
+      halftone archival photos, ink annotations. The palette turns cold to warm as the story moves from
+      isolation to real connection. Generate each shot, drop the PNG into <code>images/</code>, and this board fills in.</p>
+    <div class="meta">
+      <span class="chip"><b>12</b>&nbsp; required shots</span>
+      <span class="chip"><b>6</b>&nbsp; scenes</span>
+      <span class="chip">~90&nbsp;sec</span>
+      <span class="chip">16:9</span>
+      <span class="chip">12fps stop-motion feel</span>
+    </div>
+  </header>
+
+  <div id="board"></div>
+
+  <div class="style-note">
+    <h2>Master style block — paste at the start of every prompt</h2>
+    <p>This is what keeps all 12 frames reading as one Vox production instead of 12 unrelated collages.
+      Then append the per-shot description above. Keep to 3–4 flat tones per frame; one saturated accent.</p>
+    <pre id="styleblock"></pre>
+    <button class="copy" data-copy="styleblock" style="margin-top:12px">Copy style block</button>
+  </div>
+
+  <footer>TRYB × Vox collage · storyboard.html · cold-to-warm color arc · animate at 12fps within 24fps</footer>
+</div>
+
+<script>
+const STYLE = `Editorial paper-cutout collage illustration in the style of Vox.com explainer videos. Hand-cut paper figures with visible torn and rough-cut edges, layered on a cream/off-white textured cardstock background. Halftone-dot archival photographs cut out and pasted at angles. Bold flat single-color background blocks (mustard yellow, brick red, teal), no gradients. Visible strips of tape and paper drop-shadows. Hand-drawn black ink annotation arrows, circles and marker-style handwritten labels. Bold cutout typography made of stacked, slightly rotated paper letters. Grainy paper texture overlay, slight film grain, muted vintage color grade with one saturated accent color. Flat overhead lighting, no 3D rendering — everything reads as physically assembled paper craft photographed from directly above. High detail, 16:9, clean negative space for text.`;
+
+const ACCENT = {mustard:'#E0A62A', brick:'#BC4A31', teal:'#2C7A72'};
+
+const SCENES = [
+  {no:'01', title:'The Hook — alone together', time:'0–15 s', note:'Cold, desaturated. The problem lands before a single word.',
+   shots:[
+     {id:'IMG-01', file:'01-hook-thumbnail.png', beat:'Alone, together (thumbnail)', accent:'teal',
+      prompt:`A hand-cut paper crowd at a party, each figure isolated in its own pool of cold blue phone-glow, all staring down at flat-color cutout phones instead of each other. A halftone archival photo of an old-fashioned group hug is torn and pasted in the corner, fading. A hand-drawn red ink arrow circles one disconnected figure. Big cutout paper-letter headline "ALONE, TOGETHER" across the top. Flat teal background, mustard accents.`},
+     {id:'IMG-02', file:'02-endless-scroll.png', beat:'Endless scrolling', accent:'brick',
+      prompt:`A single hand-cut paper figure hunched over an oversized flat-color cutout smartphone, an endlessly long torn-paper feed strip unspooling from the phone and pooling on the floor. Cutout notification bubbles taped around the figure's head like noise. Cold desaturated palette, mustard notification accents, brick-red background block, hand-drawn arrow down the feed with marker label "just five more minutes".`},
+     {id:'IMG-03', file:'03-dead-group-chat.png', beat:'Dead group chats / cancelled plans', accent:'teal',
+      prompt:`A flat-color cutout phone showing a paper group-chat with bubbles reading "let's catch up soon" and "next time!", the bubbles crumbling into torn scraps at the bottom. A cutout calendar page beside it, every day blank, one plan crossed out in red ink. Teal background, muted palette, tape marks, handwritten annotation "the plans that never happen".`},
+   ]},
+  {no:'02', title:'The Problem — the cost', time:'15–30 s', note:'Still cold. The emotional and the statistical, back to back.',
+   shots:[
+     {id:'IMG-04', file:'04-couple-apart.png', beat:'Close but disconnected', accent:'mustard',
+      prompt:`Close-up: two hand-cut paper figures on a torn-paper couch, physically close but each lit by cold phone-glow, faces turned away. A halftone archival photo of an embracing couple is torn and half-covered by the phone cutout — what's being replaced. Hand-drawn dotted arrow and a small marker speech bubble reading "text back later". Muted vintage palette, single mustard accent, paper grain and tape.`},
+     {id:'IMG-05', file:'05-data-decline.png', beat:'The data', accent:'brick',
+      prompt:`A declining bar chart where each bar is a stack of cutout paper people getting shorter, labeled in cutout letters "TIME SPENT WITH FRIENDS IN PERSON". Beside it a flat-color cutout smartphone with a rising red usage line in ink. Hand-drawn black arrows connect the rising phone line to the shrinking people. Brick-red background block, torn edges, tape, handwritten axis numbers.`},
+   ]},
+  {no:'03', title:'The Idea — TRYB enters', time:'30–50 s', note:'First warm frame. Palette shifts to mustard + teal — hope arrives.',
+   shots:[
+     {id:'IMG-06', file:'06-tryb-reveal.png', beat:'Brand reveal', accent:'mustard',
+      prompt:`A calm brand reveal: the lowercase cursive wordmark "tryb" as a single clean hand-cut cream paper shape, taped at a slight angle, centered on warm mustard-yellow cardstock — the first warm frame after the cold scenes. Minimal: a few torn-paper confetti shapes and one hand-drawn ink underline. Lots of clean negative space. (Reuse exact letterforms from LOGO.jpg.)`},
+     {id:'IMG-07', file:'07-what-energizes-you.png', beat:'Personality questions', accent:'teal',
+      prompt:`A flat-color cutout phone showing a paper questionnaire "WHAT ENERGIZES YOU?" with hand-cut answer chips: "deep conversations", "outdoor adventures", "creative expression", "quiet time". A paper hand taps one chip. Warm teal-and-mustard palette, tape marks, hand-drawn ink checkmark beside a chosen answer.`},
+     {id:'IMG-08', file:'08-real-experiences.png', beat:'Curated real experiences', accent:'mustard',
+      prompt:`A cutout "you're invited" card at center, surrounded by a fan of pasted halftone archival photos of real experiences: latte art, a hiker on a ridge, a shared dinner table, hands throwing pottery, a board-game night — each torn and taped at a playful angle. Warm saturated palette, hand-drawn ink arrows linking the card to each experience, marker label "real people, real experiences".`},
+   ]},
+  {no:'04', title:'How It Works — the mechanism', time:'50–65 s', note:'Warm. Screen-to-table: the app is the bridge, not the destination.',
+   shots:[
+     {id:'IMG-09', file:'09-curated-matches.png', beat:'Matched to your people', accent:'teal',
+      prompt:`A constellation of hand-cut circular paper portraits (five diverse smiling halftone faces) connected to a central tryb badge by hand-drawn ink lines and small taped paper strings, like a friendship map. Warm mustard background, teal accent circles, paper grain, marker annotation "matched on what you love".`},
+     {id:'IMG-10', file:'10-invitation-gathering.png', beat:'Invitation → gathering', accent:'mustard',
+      prompt:`Split collage: left, a flat-color cutout phone shows a paper invitation "SATURDAY 7PM · SUNSET DINNER"; a hand-drawn ink arrow sweeps across to the right, where a hand-cut paper small group laughs around a torn-paper dinner table under a string of cutout warm bulb lights. Warm saturated palette, tape marks, handwritten label "from screen to table".`},
+   ]},
+  {no:'05', title:'The Emotion — the payoff', time:'65–80 s', note:'Fully saturated. No phones in frame. The archival photo is now the living present.',
+   shots:[
+     {id:'IMG-11', file:'11-real-connection.png', beat:'Real connection', accent:'mustard',
+      prompt:`A warm, joyful collage of real-life bonding: hand-cut paper friends laughing, a sunset dinner, a walk side by side. The halftone archival photos are now FULLY saturated and vivid — the real world has replaced the phone. No phones anywhere. Warm golden palette, one bright mustard accent, celebratory torn-paper confetti, hand-drawn ink hearts.`},
+   ]},
+  {no:'06', title:'The Ending — call to action', time:'80–90 s', note:'Confident, minimal end card.',
+   shots:[
+     {id:'IMG-12', file:'12-endcard.png', beat:'Your people are out there', accent:'brick',
+      prompt:`A clean closing card on cream cardstock: bold stacked cutout paper-letter headline "YOUR PEOPLE ARE OUT THERE", the cursive "tryb" wordmark below, and a hand-cut rounded paper "JOIN TRYB" button in a bold accent color. Minimal, confident, lots of negative space, one hand-drawn ink underline flourish. Warm mustard + cream palette. (Reuse wordmark from LOGO.jpg.)`},
+   ]},
+];
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+const rots=['-1deg','.8deg','-.6deg','1deg','-.9deg'];
+let ri=0;
+const board=document.getElementById('board');
+board.innerHTML = SCENES.map(sc=>`
+  <section class="scene">
+    <div class="scene-head">
+      <span class="scene-no">SC ${sc.no}</span>
+      <span class="scene-title">${esc(sc.title)}</span>
+      <span class="scene-time">${esc(sc.time)}</span>
+      <span class="scene-note">${esc(sc.note)}</span>
+    </div>
+    <div class="grid">
+      ${sc.shots.map(s=>{
+        const rot=rots[(ri++)%rots.length];
+        const full = STYLE+'\\n\\n'+s.prompt;
+        return `<article class="shot" style="--rot:${rot}">
+          <div class="slot">
+            <img src="images/${s.file}" alt="${esc(s.beat)}" loading="lazy"
+                 onload="this.parentNode.querySelector('.ph').style.display='none'">
+            <div class="ph">
+              <span class="beat">${esc(s.beat)}</span>
+              <span class="await">awaiting art</span>
+            </div>
+            <span class="accent" style="background:${ACCENT[s.accent]}"></span>
+          </div>
+          <div class="body">
+            <div class="idline"><span class="id">${s.id}</span><span class="file">${esc(s.file)}</span></div>
+            <p class="prompt">${esc(s.prompt)}</p>
+            <button class="copy" data-full="${esc(full)}">Copy full prompt</button>
+          </div>
+        </article>`;
+      }).join('')}
+    </div>
+  </section>`).join('');
+
+document.getElementById('styleblock').textContent = STYLE;
+
+document.addEventListener('click', async e=>{
+  const btn = e.target.closest('.copy'); if(!btn) return;
+  let text = btn.dataset.full;
+  if(!text && btn.dataset.copy) text = document.getElementById(btn.dataset.copy).textContent;
+  try{ await navigator.clipboard.writeText(text); }
+  catch(_){ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  const old=btn.textContent; btn.textContent='Copied ✓'; btn.classList.add('ok');
+  setTimeout(()=>{btn.textContent=old; btn.classList.remove('ok');},1400);
+});
+</script>
