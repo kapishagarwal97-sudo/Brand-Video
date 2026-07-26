@@ -11,12 +11,7 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "edit-sheet.html")
 
-SHOTS = ["01-hook-thumbnail.png", "01-hook-thumbnail3.png", "02-endless-scroll.png",
-         "03-dead-group-chat.png", "04-couple-apart.png", "04-couple-apart.png1.png",
-         "05-data-decline.png", "01-hook-thumbnail2.png", "06-tryb-reveal.png",
-         "07-what-energizes-you.png", "08-real-experiences.png", "09-curated-matches.png",
-         "10-invitation-gathering.png", "11-real-connection1.png", "11-real-connection.png",
-         "12-endcard.png", "12-endcard1.png"]
+SHOTS = [f"thumbs/shot-{i:02d}.jpg" for i in range(1, 15)]
 
 
 def jpeg_uri(path, box=560, q=72):
@@ -31,7 +26,7 @@ def preview_uri():
     import imageio_ffmpeg
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     tmp = os.path.join(ROOT, ".preview.mp4")
-    subprocess.run([ff, "-y", "-i", os.path.join(ROOT, "tryb-vox-collage-90s.mp4"),
+    subprocess.run([ff, "-y", "-i", os.path.join(ROOT, "tryb-vox-collage-40s.mp4"),
                     "-vf", "scale=640:360", "-c:v", "libx264", "-crf", "31",
                     "-preset", "veryslow", "-pix_fmt", "yuv420p",
                     "-movflags", "+faststart", tmp],
@@ -42,7 +37,7 @@ def preview_uri():
 
 
 def main():
-    media = {f: jpeg_uri(os.path.join(ROOT, f)) for f in SHOTS}
+    media = {f: jpeg_uri(os.path.join(ROOT, f), box=680, q=76) for f in SHOTS}
     media["__poster__"] = jpeg_uri(os.path.join(ROOT, "poster.jpg"), box=960, q=70)
     media["__film__"] = preview_uri()
 

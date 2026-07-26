@@ -1,104 +1,122 @@
 # TRYB — "Alone, Together" · Vox-style collage film
 
-**Delivered:** `tryb-vox-collage-90s.mp4` — 87 s · 1920×1080 · 24 fps (animated on twos) · 26 MB
-**Also:** `tryb-vox-collage-720p.mp4` (1280×720, 7 MB) for social/email · `poster.jpg` · `storyboard.html` (edit sheet)
-**Rebuild:** `python3 build/render.py` then encode (command at the bottom)
+**Delivered:** `tryb-vox-collage-40s.mp4` — 39.6 s · 1920×1080 · 24 fps (animated on twos) · 15 MB
+**Also:** `tryb-vox-collage-40s-720p.mp4` (1280×720, 4.3 MB) · `poster.jpg` · `storyboard.html` (edit sheet)
+**Rebuild:** `python3 build/render.py`, then the encode command at the bottom
 
 ---
 
-## The cut — 17 shots, 87 seconds
+## Three rules this cut obeys
 
-| # | TC | Dur | Source | Beat | Move |
-|---|-----|-----|--------|------|------|
-| 1 | 0:00 | 4.5 | `01-hook-thumbnail.png` | A room full of people, all gone | push in |
-| 2 | 0:04 | 3.5 | `01-hook-thumbnail3.png` | **ALONE, TOGETHER.** | slow push |
-| 3 | 0:08 | 6.5 | `02-endless-scroll.png` | just five more minutes | pan down |
-| 4 | 0:14 | 6.0 | `03-dead-group-chat.png` | the plans that never happen | pan down |
-| 5 | 0:20 | 4.5 | `04-couple-apart.png` | close, and nowhere near | push in |
-| 6 | 0:25 | 4.5 | `04-couple-apart.png1.png` | text back later. | slow push |
-| 7 | 0:29 | 5.5 | `05-data-decline.png` | 7h 42m | pan down |
-| 8 | 0:35 | 3.5 | `01-hook-thumbnail2.png` | what it replaced | pull out |
-| 9 | 0:38 | 4.0 | `06-tryb-reveal.png` | **tryb** | slow push |
-| 10 | 0:42 | 6.0 | `07-what-energizes-you.png` | what energizes you? | pan down |
-| 11 | 0:48 | 5.0 | `08-real-experiences.png` | you're invited | push in |
-| 12 | 0:53 | 5.0 | `09-curated-matches.png` | matched on what you love | pan down |
-| 13 | 0:58 | 6.0 | `10-invitation-gathering.png` | **from screen to table** | pan right |
-| 14 | 1:04 | 6.0 | `11-real-connection1.png` | joyful bonding | push in |
-| 15 | 1:10 | 5.0 | `11-real-connection.png` | real people, real experiences | pan right |
-| 16 | 1:15 | 5.0 | `12-endcard.png` | YOUR PEOPLE ARE OUT THERE | slow push |
-| 17 | 1:20 | 6.5 | `12-endcard1.png` | JOIN TRYB | hold |
+**1 · Every still is shown whole — nothing crops, nothing zooms in.**
+None of the supplied stills are 16:9 (natives run 0.75 to 1.50). Each one is now placed as a paper
+card on a textured cream cardstock field, scaled *down* to fit. Where a card moves, it only ever
+zooms **out** (starts 6% oversized, settles to fit). The field is the real
+`Blank cream paper texture.png` you supplied, warmed slightly and washed with the scene's ground
+colour at 10% so the cold→warm arc still reads underneath. Cards get a cream paper border, a nicked
+(non-digital) edge, a soft drop shadow, and a strip of tape — so the letterbox space became part of
+the design rather than something to hide.
 
-Scene map: **1 Hook** 0:00–0:20 · **2 Problem** 0:20–0:38 · **3 Idea** 0:38–0:53 ·
-**4 How it works** 0:53–1:04 · **5 Emotion** 1:04–1:15 · **6 Ending** 1:15–1:27
+**2 · One effect per shot, never the same effect twice in a row.**
+Each shot animates exactly one property — no combined moves.
+
+| Effect | What moves |
+|--------|-----------|
+| `zoom_out` | scale 1.06 → 1.00 |
+| `drift_up` | vertical position, ±16 px |
+| `drift_side` | horizontal position, ±18 px |
+| `rotate_settle` | rotation 1.8° → 0° (paper being laid down) |
+| `fade` | opacity 0 → 1 |
+| `hold` | nothing at all (final card) |
+
+The renderer asserts on any repeat, so the rule can't break silently. Text rides its own track, so
+adding a caption never counts as a second effect on the picture.
+
+**3 · Text carries the argument.** Eight shots now have a headline in `Big Shoulders` (condensed
+bold — the closest match to the newspaper cutout type inside your collages), an orange hand-drawn
+rule, and a marker-script kicker in `Nothing You Could Do`. The six statement frames that already
+carry their own typography stay clean.
+
+---
+
+## The cut — 14 shots, 39.6 seconds
+
+| # | TC | Dur | Source | Layout | Effect | On-screen text |
+|---|-----|-----|--------|--------|--------|----------------|
+| 1 | 0:00 | 3.0 | `01-hook-thumbnail.png` | split | zoom out | **We've never been more connected.** · *and never further apart* |
+| 2 | 0:03 | 2.5 | `01-hook-thumbnail3.png` | full | rotate settle | — (own headline) |
+| 3 | 0:05 | 3.0 | `02-endless-scroll.png` | split | drift up | **Hours vanish into a feed with no end.** · *just five more minutes* |
+| 4 | 0:08 | 3.0 | `03-dead-group-chat.png` | split | zoom out | **The group chat lives on. The plans quietly die.** · *next time, for sure* |
+| 5 | 0:11 | 2.9 | `04-couple-apart.png1.png` | split | drift side | **Closeness became something we postpone.** · *text back later* |
+| 6 | 0:14 | 2.9 | `05-data-decline.png` | full | zoom out | — (own labels) |
+| 7 | 0:17 | 2.6 | `01-hook-thumbnail2.png` | full | rotate settle | **This is what it replaced.** — set inside the still's own white space |
+| 8 | 0:19 | 2.3 | `06-tryb-reveal.png` | full | fade | — (wordmark alone) |
+| 9 | 0:22 | 2.9 | `07-what-energizes-you.png` | split | zoom out | **So tryb starts with a better question.** · *not who you look like* |
+| 10 | 0:25 | 2.9 | `09-curated-matches.png` | split | drift up | **Then it finds the people who love the same things.** · *five, not five thousand* |
+| 11 | 0:28 | 3.0 | `10-invitation-gathering.png` | full | zoom out | — (own headline) |
+| 12 | 0:31 | 2.9 | `11-real-connection1.png` | split | drift side | **No feed. No scrolling. An evening you remember.** · *this is the whole point* |
+| 13 | 0:34 | 2.7 | `12-endcard.png` | full | rotate settle | — (own headline) |
+| 14 | 0:36 | 2.9 | `12-endcard1.png` | full | hold | — (own CTA) |
+
+Scene map: **1 Hook** 0:00–0:11 · **2 Problem** 0:11–0:19 · **3 Idea** 0:19–0:25 ·
+**4 How it works** 0:25–0:31 · **5 Emotion** 0:31–0:34 · **6 Ending** 0:34–0:39
+
+Cutting from 87 s to under 40 meant dropping three shots: `04-couple-apart.png` (the photoreal couch
+— the collage version at shot 5 makes the same point harder), `08-real-experiences.png` (shots 10
+and 11 already cover the invitation), and `11-real-connection.png` (kept the warmer of the two
+payoff frames).
+
+---
+
+## Layouts
+
+**split** — text column left (x 96, max 548 px), card centred in a 1164×964 box on the right. Used
+for the eight explanatory beats.
+
+**full** — card centred in a 1420×980 box, no added text. Used for the six frames whose own
+typography is the message.
+
+One override: shot 7's still is two-thirds negative space by design, so its headline sits *inside*
+the card's white area rather than beside it (`TEXT_OVERRIDE` in `build/render.py`).
 
 ---
 
 ## Colour arc
 
-The film never mixes grounds — one flat colour per scene is what makes 17 separately
-generated images read as a single production.
+| Field wash | Hex | Scene |
+|-----------|-----|-------|
+| cool teal | `#4A7A80` | 1 |
+| warm brick | `#BC604A` | 2 |
+| mustard | `#DEAA4A` | 3 |
+| tryb orange | `#EE8454` → `#F08C5C` | 4–6 |
 
-| Ground | Hex | Where |
-|--------|-----|-------|
-| Hook teal | `#123F45` | Scene 1 |
-| Overload brick | `#A93A24` | Scene 2 |
-| Turn mustard | `#D9971A` | Scene 3 |
-| tryb orange | `#EB642E` | Scenes 4–6 |
-| Stock cream | `#F2DCC4` | throughout |
-| Ink | `#1F1A14` | annotation |
-
-Orange and cream are read directly off `Brand Palette Background Color.png`.
+Washed into cream at 10% — enough to feel, not enough to fight the cards. Brand orange `#EB642E`
+and cream `#F2DCC4` are read off `Brand Palette Background Color.png`.
 
 ---
 
-## Every asset you supplied
+## Assets
 
-**In the cut (17):** `01-hook-thumbnail.png`, `01-hook-thumbnail2.png`, `01-hook-thumbnail3.png`,
-`02-endless-scroll.png`, `03-dead-group-chat.png`, `04-couple-apart.png`, `04-couple-apart.png1.png`,
-`05-data-decline.png`, `06-tryb-reveal.png`, `07-what-energizes-you.png`, `08-real-experiences.png`,
-`09-curated-matches.png`, `10-invitation-gathering.png`, `11-real-connection.png`,
-`11-real-connection1.png`, `12-endcard.png`, `12-endcard1.png`
+**In the cut (14):** `01-hook-thumbnail.png`, `01-hook-thumbnail2.png`, `01-hook-thumbnail3.png`,
+`02-endless-scroll.png`, `03-dead-group-chat.png`, `04-couple-apart.png1.png`, `05-data-decline.png`,
+`06-tryb-reveal.png`, `07-what-energizes-you.png`, `09-curated-matches.png`,
+`10-invitation-gathering.png`, `11-real-connection1.png`, `12-endcard.png`, `12-endcard1.png`
 
-**Held as alternates (3):**
-- `01-hook-thumbnail.png1.png` — wider crowd, faces less legible than the version used.
-- `08-real-experiences1.png` — teal "You're invited". Beautiful, but teal belongs to Scene 1 in this
-  arc; using it at 0:48 would break the warm turn. Strong as a standalone social still.
-- `10-invitation-gathering1.png` — orange variant with cleaner UI. Genuinely close call against the
-  mustard one; swap it in if you'd rather the pivot land on brand colour a beat earlier.
+**Held as alternates (6):** `01-hook-thumbnail.png1.png`, `04-couple-apart.png` (photoreal couch),
+`08-real-experiences.png`, `08-real-experiences1.png`, `10-invitation-gathering1.png`,
+`11-real-connection.png`
 
-**Supporting assets (4):** `Blank cream paper texture.png`, `Brand Palette Background Color.png`
-(+ duplicate `(1)`), `transparent PNG cutouts (arrows, tape, hearts).png`, `LOGO.jpg`
+**Supporting:** `Blank cream paper texture.png` (now the field behind every frame),
+`Brand Palette Background Color.png`, `transparent PNG cutouts (arrows, tape, hearts).png`, `LOGO.jpg`
 
----
-
-## Production notes
-
-**Nothing arrived at 16:9.** Native ratios ran 0.75 (portrait) to 1.50 — none matched the 1.78 the
-film needed. Cropping would have cut text off compositions that were designed as whole layouts, so
-instead: tall frames became vertical pans, and frames that must read all at once (`06`, `12`, `12-1`)
-sit on a field extended from their own matched edge colour, which is seamless because those
-backgrounds are flat paper. On `02` the constraint turned into the best move in the film — the pan
-follows the feed down to the pile on the floor.
-
-**Two visual registers, used deliberately.** Some shots came back photoreal, some as true paper
-collage. That is how Vox actually works, so the cut alternates: photoreal states the fact, collage
-argues about it. Shots 5 and 6 run the same beat both ways, back to back.
-
-**Rendered on twos.** Frames are generated at 12 fps and encoded to 24, so the stop-motion stutter is
-in the footage rather than applied as a filter. Grain is composited per frame from a rotating pool of
-eight tiles so it flickers like film instead of sitting static.
-
-**Silent by design.** Every frame carries its own typography, so no captions were burned in — they
-would fight the paper. The film wants a music bed and optionally sparse VO; it does not want
-lower-thirds.
-
-### Two things worth fixing before the next round
+### Still worth fixing
 
 1. **The cutout sheet isn't transparent.** `transparent PNG cutouts (arrows, tape, hearts).png` has a
-   baked olive-gradient background, so the arrows/tape/hearts can't be layered over frames as-is.
-   Re-render on true alpha and they become animatable overlays.
-2. **Two logo colourways are in play.** The wordmark is cream on `06`/`12`/`12-1` and orange on
-   `07`/`09`/`10`. Both read fine in sequence, but worth locking one rule.
+   baked olive-gradient background, so those arrows and tape can't be layered over frames. The tape
+   strips in this cut are drawn procedurally instead. A true-alpha re-render would let the real ones
+   animate on.
+2. **Two logo colourways.** Cream on `06`/`12`/`12-1`, orange on `07`/`09`/`10`. Both read fine in
+   sequence; worth locking one rule.
 
 ---
 
@@ -106,13 +124,13 @@ lower-thirds.
 
 ```bash
 pip install pillow imageio-ffmpeg
-python3 build/render.py                      # writes 1044 PNG frames at 12 fps
+python3 build/render.py                      # writes 475 PNG frames at 12 fps
 ffmpeg -y -framerate 12 -i frames/f%05d.png \
-  -c:v libx264 -preset slower -crf 24 -tune grain \
+  -c:v libx264 -preset slower -crf 22 -tune grain \
   -pix_fmt yuv420p -r 24 -movflags +faststart \
-  tryb-vox-collage-90s.mp4
+  tryb-vox-collage-40s.mp4
 ```
 
-Edit `EDIT` at the top of `build/render.py` to change shot order, duration, framing mode
-(`fill` = motion crop, `fit` = whole composition) or move (`push_in`, `push_out`, `pan_down`,
-`pan_right`, `hold_push`).
+Everything is driven by the `EDIT` table at the top of `build/render.py` — shot order, scene,
+layout (`split`/`full`), effect, duration, headline and kicker. `build/render87.py` is the previous
+87-second cut, kept for reference.
