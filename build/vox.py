@@ -59,22 +59,24 @@ def kf(t, t0, t1, a, b, ease=out_cubic):
 
 
 # ----------------------------------------------------------------- paper
-def _torn_mask(w, h, seed, amp=7, step=11):
-    """Irregular torn edge on all four sides."""
-    m = Image.new("L", (w, h), 0)
+def _torn_mask(w, h, seed, amp=7, step=11, ss=3):
+    """Irregular torn edge, drawn supersampled so the edge is antialiased."""
+    W2, H2 = w * ss, h * ss
+    m = Image.new("L", (W2, H2), 0)
     d = ImageDraw.Draw(m)
     rnd = random.Random(seed)
+    a, st = amp * ss, step * ss
     pts = []
-    for x in range(0, w + step, step):
-        pts.append((min(x, w), max(0, rnd.uniform(0, amp))))
-    for y in range(0, h + step, step):
-        pts.append((w - max(0, rnd.uniform(0, amp)), min(y, h)))
-    for x in range(w, -step, -step):
-        pts.append((max(x, 0), h - max(0, rnd.uniform(0, amp))))
-    for y in range(h, -step, -step):
-        pts.append((max(0, rnd.uniform(0, amp)), max(y, 0)))
+    for x in range(0, W2 + st, st):
+        pts.append((min(x, W2), max(0, rnd.uniform(0, a))))
+    for y in range(0, H2 + st, st):
+        pts.append((W2 - max(0, rnd.uniform(0, a)), min(y, H2)))
+    for x in range(W2, -st, -st):
+        pts.append((max(x, 0), H2 - max(0, rnd.uniform(0, a))))
+    for y in range(H2, -st, -st):
+        pts.append((max(0, rnd.uniform(0, a)), max(y, 0)))
     d.polygon(pts, fill=255)
-    return m
+    return m.resize((w, h), Image.LANCZOS)
 
 
 def paper(w, h, colour, seed=0, torn=True, grain=True, shadow=True):
@@ -182,22 +184,67 @@ def halftone(path, w, cell=5, mono=True, contrast=1.25):
     return out
 
 
-def photo_card(path, w, halftone_it=True, cell=5, border=18, seed=3, mono=True):
-    """A torn photographic print, ready to be animated as one layer."""
-    im = (halftone(path, w, cell, mono) if halftone_it
-          else Image.open(os.path.join(ROOT, path)).convert("RGB"))
-    if not halftone_it:
-        im = im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
-    cw, ch = im.width + border * 2, im.height + border * 2
+def photo_card(path, w, halftone_it=True, dots=170, seed=3, mono=True):
+    """A torn photographic print built at width `w`.
+
+    Every metric (border, dot pitch, shadow) scales with `w`, so a caller can
+    build at 2x the display size and composite at base=0.5. Rotation and
+    in-between scales then resample a larger source and stay crisp instead of
+    smearing the dot screen.
+    """
+    w = int(w)
+    if halftone_it:
+        im = halftone(path, w, max(2, round(w / dots)), mono)
+    else:
+        src = Image.open(os.path.join(ROOT, path)).convert("RGB")
+        im = src.resize((w, round(src.height * w / src.width)), Image.LANCZOS)
+
+    b = max(6, round(w * 0.021))
+    cw, ch = im.width + b * 2, im.height + b * 2
     card = Image.new("RGBA", (cw, ch), (247, 241, 227, 255))
-    card.paste(im, (border, border))
-    card.putalpha(_torn_mask(cw, ch, seed, amp=6, step=13))
-    pad = 26
+    card.paste(im, (b, b))
+    card.putalpha(_torn_mask(cw, ch, seed, amp=max(4, round(w * .007)),
+                             step=max(8, round(w * .015))))
+    pad = max(12, round(w * 0.030))
     out = Image.new("RGBA", (cw + pad * 2, ch + pad * 2), (0, 0, 0, 0))
     sh = Image.new("RGBA", out.size, (0, 0, 0, 0))
-    sh.paste((25, 18, 12, 110), (pad + 3, pad + 8), card.getchannel("A"))
-    out.alpha_composite(sh.filter(ImageFilter.GaussianBlur(12)))
+    sh.paste((25, 18, 12, 110), (pad + max(2, round(w * .004)), pad + max(4, round(w * .009))),
+             card.getchannel("A"))
+    out.alpha_composite(sh.filter(ImageFilter.GaussianBlur(max(5, w * 0.014))))
     out.alpha_composite(card, (pad, pad))
+    return out
+
+
+_LOGO = {}
+
+
+def logo(width, colour=CREAM):
+    """The real tryb wordmark, alpha-keyed off the brand palette artwork.
+
+    The palette file is the cream mark on flat orange, so projecting each pixel
+    onto the orange->cream axis recovers a clean antialiased alpha channel.
+    Never re-letter the mark with a script font — the shapes are custom.
+    """
+    key = (width, colour)
+    if key in _LOGO:
+        return _LOGO[key]
+    import numpy as np
+    src = Image.open(os.path.join(ROOT, "Brand Palette Background Color.png")).convert("RGB")
+    a = np.asarray(src).astype(np.float32)
+    o = np.array([235, 100, 46], np.float32)      # ground
+    c = np.array([242, 220, 196], np.float32)     # mark
+    d = c - o
+    t = ((a - o) @ d) / float(d @ d)
+    alpha = np.clip(t, 0, 1)
+    m = Image.fromarray((alpha * 255).astype("uint8"), "L")
+
+    bbox = m.point(lambda v: 255 if v > 28 else 0).getbbox()
+    m = m.crop(bbox)
+    h = round(m.height * width / m.width)
+    m = m.resize((width, h), Image.LANCZOS)
+    out = Image.new("RGBA", (width, h), colour + (0,))
+    out.putalpha(m)
+    _LOGO[key] = out
     return out
 
 
@@ -329,9 +376,10 @@ def field(tint, seed=0):
 class Layer:
     """One animated element. `img` is a PIL RGBA or a callable(t)->RGBA."""
 
-    def __init__(self, img, x, y, anchor="c", anims=None, jitter=0, z=0):
+    def __init__(self, img, x, y, anchor="c", anims=None, jitter=0, z=0, base=1.0):
         self.img, self.x, self.y = img, x, y
         self.anchor, self.anims, self.jitter, self.z = anchor, anims or {}, jitter, z
+        self.base = base            # supersample divisor: art built at 1/base size
 
     def prop(self, name, t, default):
         spec = self.anims.get(name)
@@ -348,7 +396,7 @@ class Layer:
         im = self.img(t) if callable(self.img) else self.img
         if im is None:
             return
-        sc = self.prop("scale", t, 1.0)
+        sc = self.base * self.prop("scale", t, 1.0)
         al = self.prop("alpha", t, 1.0)
         ro = self.prop("rot", t, 0.0)
         dx = self.prop("dx", t, 0.0)

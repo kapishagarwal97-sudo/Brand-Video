@@ -26,7 +26,7 @@ def preview_uri():
     import imageio_ffmpeg
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     tmp = os.path.join(ROOT, ".preview.mp4")
-    subprocess.run([ff, "-y", "-i", os.path.join(ROOT, "tryb-vox-collage-40s.mp4"),
+    subprocess.run([ff, "-y", "-i", os.path.join(ROOT, "tryb-vox-motion-40s.mp4"),
                     "-vf", "scale=640:360", "-c:v", "libx264", "-crf", "31",
                     "-preset", "veryslow", "-pix_fmt", "yuv420p",
                     "-movflags", "+faststart", tmp],

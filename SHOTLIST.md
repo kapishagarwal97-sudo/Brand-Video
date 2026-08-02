@@ -1,7 +1,7 @@
 # TRYB — "Alone, Together" · Vox-style motion film
 
-**Delivered:** `tryb-vox-motion-40s.mp4` — 39.67 s · 1920×1080 · 24 fps (animated on twos) · 13 MB
-**Also:** `tryb-vox-motion-40s-720p.mp4` (3.5 MB) · `poster.jpg` · `storyboard.html` (edit sheet)
+**Delivered:** `tryb-vox-motion-40s.mp4` — 39.67 s · 1920×1080 · 24 fps (animated on twos) · 17 MB
+**Also:** `tryb-vox-motion-40s-720p.mp4` (3.7 MB) · `poster.jpg` · `storyboard.html` (edit sheet)
 **Rebuild:** `cd build && python3 film.py`, then the encode command at the bottom
 
 ---
@@ -67,6 +67,27 @@ physically placed rather than digitally faded.
 Your original stills supply the photography: the crowd, the embrace, the group hug, the feed
 ribbon, the five faces, the dinner and sunset photos. Everything else — type, paper, tape, arrows,
 charts, confetti — is generated.
+
+### Image fidelity
+
+Two things were degrading the artwork and are now fixed:
+
+- **No double dot-screening.** Your stills already carry their own halftone treatment, so running
+  them through `halftone()` again was screening an already-screened image — that is what crushed
+  the night crowd to near-black and turned the group hug blocky. Every supplied still is now placed
+  as-is; `halftone()` remains available for raw photography.
+- **Supersampled compositing.** Prints are built at up to 2× their display width and composited
+  back down (`Layer(base=…)`), so rotation and in-between scales resample a larger source instead
+  of smearing it. Torn edges are drawn at 3× and downsampled, so the paper edge is antialiased
+  rather than a jagged polygon.
+
+### The real wordmark
+
+The mark is no longer re-lettered in a script font. `logo()` alpha-keys the actual tryb wordmark
+out of `Brand Palette Background Color.png` by projecting each pixel onto the orange→cream axis,
+which recovers a clean antialiased alpha, then tints it to whatever the frame needs — cream on
+orange and mustard, orange on cream. It is used in all four places the mark appears (shots 8, 10,
+13, 14). The letterforms are custom; they must never be approximated with a typeface.
 
 ### One number to replace
 

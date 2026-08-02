@@ -8,7 +8,7 @@ draw themselves on, bars grow, bubbles fall, counters count up.
 import math, os, random, shutil
 from PIL import Image, ImageDraw
 import vox as V
-from vox import (Layer, Shot, paper, tape, label, photo_card, halftone, circle_portrait,
+from vox import (Layer, Shot, paper, tape, label, photo_card, halftone, circle_portrait, logo,
                  ink_path, text_layer, words_layer, counter_layer, font, W, H, FPS, PAD,
                  INK, ORANGE, CREAM, KRAFT, RED, TEAL, BRICK, MUSTARD, TRYB,
                  F_HEAD, F_HAND, F_BODY, back_out, out_cubic, out_quint, linear)
@@ -62,6 +62,32 @@ def stroke(pts, t0, t1, width=9, colour=INK, arrow=True, z=60):
     return Layer(mk, off[0], off[1], anchor="tl", z=z)
 
 
+def photo(path, disp_w, **kw):
+    """Build a print at up to 2x the display width; return (image, base scale)."""
+    src_w = Image.open(os.path.join(V.ROOT, path)).width
+    if kw.get("halftone_it", True):
+        build = int(disp_w * 2)                 # dots are generated, so 2x is free
+    else:
+        build = int(min(disp_w * 2, max(disp_w, src_w)))   # never upscale a photo
+    return photo_card(path, build, **kw), disp_w / build
+
+
+def face(cx, cy, r, disp=200):
+    build = int(min(disp * 2, 2 * r))
+    return circle_portrait("09-curated-matches.png", cx, cy, r, build), disp / build
+
+
+def annot_circle(cx, cy, rx, ry, t0, t1, colour=RED, width=8, z=60):
+    """A pen circle scribbled around something, drawn on over time."""
+    _, off = V.ink_ellipse(cx, cy, rx, ry, 1.0, width, colour)
+
+    def mk(t):
+        r = 0.0 if t <= t0 else (1.0 if t >= t1 else out_cubic((t - t0) / (t1 - t0)))
+        im, _o = V.ink_ellipse(cx, cy, rx, ry, r, width, colour)
+        return im
+    return Layer(mk, off[0], off[1], anchor="tl", z=z)
+
+
 def pop(t0, dur=.38, scale=1.0):
     """Snap in with overshoot — the signature paper-cutout entrance."""
     return {"scale": [(t0, t0 + dur, 0.62 * scale, scale, back_out)],
@@ -82,16 +108,16 @@ def fade(t0, dur=.5):
 def sc01_hook():
     """Crowd lands, headline lands word by word, one figure gets circled in red."""
     g = TEAL
+    _hook_img, _hook_b = photo("01-hook-thumbnail.png", 980, halftone_it=False, seed=11)
     return Shot("hook", g, 3.0, [
-        Layer(photo_card("01-hook-thumbnail.png", 980, cell=5, seed=11), 1310, 470,
+        Layer(_hook_img, 1310, 470, base=_hook_b,
               anims={**slide(.05, dy=-70, dur=.55),
                      "rot": [(.05, .6, -2.4, -1.2, back_out)]}, jitter=1, z=10),
         Layer(tape(150, 44, -9, 2), 1310, 46, anims=pop(.42), z=30),
         headline("We've never been\nmore connected.", g, 92, 110, 370, t0=.28),
         rule(110, 600, 470, g, t0=.84),
         kicker("and never further apart", 116, 626, g, t0=1.0),
-        stroke([(1230, 700), (1198, 772), (1258, 824), (1348, 808), (1370, 732),
-                (1318, 676), (1234, 688)], 1.3, 1.9, 8, RED, arrow=False, z=70),
+        annot_circle(1330, 640, 190, 150, 1.25, 1.95, RED, z=70),
     ])
 
 
@@ -113,21 +139,22 @@ def sc02_title():
 def sc03_feed():
     """The feed genuinely scrolls; notification scraps pop in around it."""
     g = BRICK
-    strip = halftone("02-endless-scroll.png", 760, cell=5)
-    strip = strip.crop((150, 330, 640, strip.height))
+    src = Image.open(os.path.join(V.ROOT, "02-endless-scroll.png")).convert("RGB")
+    strip = src.resize((1100, round(src.height * 1100 / src.width)), Image.LANCZOS)
+    strip = strip.crop((330, 720, 752, strip.height))      # just the unspooling ribbon
     tall = Image.new("RGB", (strip.width, strip.height * 2), (247, 241, 227))
     tall.paste(strip, (0, 0)); tall.paste(strip, (0, strip.height))
-    band = 620
+    band = 700
 
     def feed(t):
         off = int((t * 200) % strip.height)
         return tall.crop((0, off, tall.width, off + band)).convert("RGBA")
 
-    L = [Layer(feed, 1300, 400, anchor="tl", anims=slide(.06, dy=90, dur=.5), z=10)]
+    L = [Layer(feed, 1130, 210, anchor="tl", anims=slide(.06, dy=90, dur=.5), z=10)]
     fb = font(F_BODY, 30)
-    for i, (txt, x, y) in enumerate([("120 likes", 1020, 250), ("47 followers", 1700, 300),
-                                     ("23 messages", 990, 440), ("9.8K views", 1730, 520),
-                                     ("15 saved", 1040, 640)]):
+    for i, (txt, x, y) in enumerate([("120 likes", 1035, 230), ("47 followers", 1700, 300),
+                                     ("23 messages", 990, 430), ("9.8K views", 1760, 540),
+                                     ("15 saved", 1010, 720)]):
         L.append(Layer(label(txt, fb, CREAM, INK, 23, 13, 20 + i), x, y,
                        anims=pop(.5 + i * .12), jitter=1, z=25))
     L += [headline("Hours vanish into\na feed with no end.", g, 84, 110, 390, t0=.22),
@@ -172,25 +199,14 @@ def sc04_chat():
 def sc05_postpone():
     """The phone tears across the embrace; the reply lands late; dots pulse."""
     g = MUSTARD
-
-    def dots(t):
-        im = Image.new("RGBA", (130, 44), (0, 0, 0, 0))
-        d = ImageDraw.Draw(im)
-        for i in range(3):
-            a = .5 + .5 * math.sin(t * 7 - i * .9)
-            d.ellipse([14 + i * 38, 12, 38 + i * 38, 36],
-                      fill=(168, 156, 138, int(110 + 140 * a)))
-        return im
+    _hug, _hugb = photo("04-couple-apart.png1.png", 980, halftone_it=False, seed=71)
     return Shot("postpone", g, 2.8, [
-        Layer(photo_card("04-couple-apart.png1.png", 880, cell=5, seed=71), 610, 590,
-              anims=slide(.05, dx=-90, dur=.55), jitter=1, z=10),
-        Layer(paper(520, 640, CREAM, 77, torn=False), 1440, 560,
-              anims={**slide(.26, dx=430, dur=.5),
-                     "rot": [(.26, .76, 5, 1.5, back_out)]}, jitter=1, z=20),
-        Layer(label("text back later.", font(F_BODY, 34), MUSTARD, INK, 28, 16, 79),
-              1460, 440, anims=pop(.82), z=30),
-        Layer(dots, 1340, 560, anims=fade(1.1), z=30),
+        Layer(_hug, 1130, 590, base=_hugb,
+              anims={**slide(.05, dx=-110, dur=.55),
+                     "rot": [(.05, .6, -2.6, -1.0, back_out)]}, jitter=1, z=10),
+        annot_circle(1444, 567, 178, 74, 1.05, 1.75, RED, width=7, z=60),
         headline("Closeness became\nsomething we postpone.", g, 66, 100, 130, t0=.2),
+        kicker("definitely soon", 106, 300, g, t0=1.0),
     ])
 
 
@@ -230,8 +246,9 @@ def sc06_data():
 def sc07_replaced():
     """The quiet beat. One photo, one line, almost no motion."""
     g = (236, 228, 208)
+    _rep, _repb = photo("01-hook-thumbnail2.png", 1060, halftone_it=False, seed=131)
     return Shot("replaced", g, 2.5, [
-        Layer(photo_card("01-hook-thumbnail2.png", 1060, cell=4, seed=131), 630, 620,
+        Layer(_rep, 630, 620, base=_repb,
               anims={**fade(.05, .8), "scale": [(.05, 1.6, 1.03, 1.0, out_cubic)]},
               jitter=1, z=10),
         headline("This is what\nit replaced.", g, 92, 1130, 270, t0=.5, dur=.7),
@@ -241,12 +258,8 @@ def sc07_replaced():
 def sc08_reveal():
     """Brand turn: wordmark snaps in, tape lands after it."""
     g = MUSTARD
-    logo = Image.open(os.path.join(V.ROOT, "06-tryb-reveal.png")).convert("RGB")
-    logo = logo.crop((170, 200, 1240, 960)).resize((880, 625), Image.LANCZOS)
-    card = Image.new("RGBA", logo.size, (0, 0, 0, 0))
-    card.paste(logo, (0, 0))
     return Shot("reveal", g, 2.2, [
-        Layer(card, 960, 540, anims=pop(.10, .55), jitter=1, z=10),
+        Layer(logo(820, CREAM), 960, 540, anims=pop(.10, .55), jitter=1, z=10),
         Layer(tape(140, 42, -12, 5), 600, 300, anims=pop(.58), z=30),
         Layer(tape(140, 42, 8, 6), 1330, 770, anims=pop(.70), z=30),
     ])
@@ -282,7 +295,7 @@ def sc10_matched():
     """Badge lands, ink lines draw outward, portraits pop in around it."""
     g = TRYB
     L = [Layer(paper(210, 210, CREAM, 181, torn=False), 960, 560, anims=pop(.06, .45), z=40),
-         Layer(text_layer("tryb", font(F_HAND, 74), TRYB), 960, 560, anims=fade(.28), z=41)]
+         Layer(logo(150, TRYB), 960, 566, anims=fade(.28), z=41)]
     # five real faces cut out of the supplied constellation collage
     faces = [(705, 180, 150), (290, 410, 150), (1115, 415, 150),
              (245, 880, 150), (1122, 887, 147)]
@@ -292,8 +305,9 @@ def sc10_matched():
         x, y = 960 + R * math.cos(a) * 1.5, 560 + R * math.sin(a)
         L.append(stroke([(960, 560), (x, y)], .42 + i * .09, .72 + i * .09, 6, CREAM,
                         arrow=False, z=20))
-        L.append(Layer(circle_portrait("09-curated-matches.png", cx, cy, r, 200),
-                       x, y, anims=pop(.60 + i * .09, .36), jitter=1, z=30))
+        fimg, fb = face(cx, cy, r, 200)
+        L.append(Layer(fimg, x, y, base=fb,
+                       anims=pop(.60 + i * .09, .36), jitter=1, z=30))
     L += [headline("Then it finds the people\nwho love the same things.", g, 62, 100, 110, t0=.15),
           kicker("five, not five thousand", 106, 290, g, t0=.88)]
     return Shot("matched", g, 3.0, L)
@@ -306,11 +320,11 @@ def sc11_pivot():
     ph.alpha_composite(text_layer("SATURDAY 7PM\nSUNSET DINNER", font(F_HEAD, 44), INK),
                        (PAD + 44, PAD + 130))
     ph.alpha_composite(text_layer("I'm in!", font(F_BODY, 30), ORANGE), (PAD + 44, PAD + 300))
+    _piv, _pivb = photo("10-invitation-gathering.png", 800, halftone_it=False, seed=205)
     return Shot("pivot", g, 3.0, [
         Layer(ph, 430, 610, anims=slide(.05, dx=-360, dur=.5), jitter=1, z=10),
         stroke([(710, 570), (860, 505), (1010, 525)], .52, 1.0, 13, INK, z=30),
-        Layer(photo_card("10-invitation-gathering.png", 800, halftone_it=False, seed=205),
-              1370, 590, anims={**pop(.98, .5),
+        Layer(_piv, 1370, 590, base=_pivb, anims={**pop(.98, .5),
                                 "rot": [(.98, 1.46, 4, 1.2, back_out)]}, jitter=1, z=20),
         headline("From screen to table.", g, 82, 100, 170, t0=.2),
     ])
@@ -319,12 +333,14 @@ def sc11_pivot():
 def sc12_payoff():
     """Full colour, no phones. Photos land, then confetti pops across the frame."""
     g = TRYB
+    p1, b1 = photo("11-real-connection1.png", 880, halftone_it=False, seed=211)
+    p2, b2 = photo("10-invitation-gathering1.png", 680, halftone_it=False, seed=213)
     L = [
-        Layer(photo_card("11-real-connection1.png", 880, halftone_it=False, seed=211),
-              690, 580, anims={**pop(.06, .5), "rot": [(.06, .56, -4, -1.5, back_out)]},
+        Layer(p1, 690, 580, base=b1,
+              anims={**pop(.06, .5), "rot": [(.06, .56, -4, -1.5, back_out)]},
               jitter=1, z=10),
-        Layer(photo_card("10-invitation-gathering1.png", 680, halftone_it=False, seed=213),
-              1420, 650, anims={**pop(.30, .5), "rot": [(.30, .8, 5, 2, back_out)]},
+        Layer(p2, 1420, 650, base=b2,
+              anims={**pop(.30, .5), "rot": [(.30, .8, 5, 2, back_out)]},
               jitter=1, z=11),
     ]
     rnd = random.Random(9)
@@ -352,8 +368,7 @@ def sc13_yourpeople():
                               "rot": [(t0, t0 + .42, rot * 3, rot, back_out)]},
                        jitter=1, z=20 + i))
         y += 150
-    L.append(Layer(text_layer("tryb", font(F_HAND, 126), CREAM), 960, 930,
-                   anims=pop(.84, .5), z=40))
+    L.append(Layer(logo(300, CREAM), 960, 940, anims=pop(.84, .5), z=40))
     return Shot("yourpeople", g, 2.7, L)
 
 
@@ -361,8 +376,7 @@ def sc14_join():
     """Wordmark, underline draws on, then the CTA strip snaps in."""
     g = TRYB
     return Shot("join", g, 2.8, [
-        Layer(text_layer("tryb", font(F_HAND, 205), CREAM), 960, 400,
-              anims=pop(.08, .55), z=20),
+        Layer(logo(620, CREAM), 960, 390, anims=pop(.08, .55), z=20),
         stroke([(660, 560), (900, 576), (1180, 556), (1290, 568)], .52, .92, 7, CREAM,
                arrow=False, z=25),
         Layer(label("JOIN TRYB", font(F_HEAD, 84), KRAFT, INK, 55, 18, 251), 960, 790,
