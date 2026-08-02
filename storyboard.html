@@ -1,4 +1,4 @@
-<title>TRYB — Vox Collage Film · 40s Cut</title>
+<title>TRYB — Vox Motion Film · 40s</title>
 <style>
   :root{
     --paper:#F3EBDC; --card:#FBF6EA; --ink:#1F1A14; --ink-soft:#6A5F4C;
@@ -93,28 +93,28 @@
 
 <div class="wrap">
   <header>
-    <div class="kicker">Final delivery · Vox-style paper-cutout explainer</div>
+    <div class="kicker">Final delivery · Vox-style motion graphics</div>
     <h1>Alone, Together — <em>a tryb film</em></h1>
-    <p class="dek">Fourteen stills cut to under 40 seconds. Every frame is shown whole — nothing crops,
-      nothing zooms in — each one laid as a paper card on textured cream cardstock. One motion effect per
-      shot, never the same one twice in a row, and animated on twos (12&nbsp;fps inside a 24&nbsp;fps
-      timeline) so it keeps the stutter of paper moved by hand.</p>
+    <p class="dek">Rebuilt as actual motion graphics. Every frame is a stack of independently animated
+      layers — paper strips snap in one after another, ink arrows draw themselves on, bars grow, chat
+      bubbles land then fall away, a counter runs up to 7.7&nbsp;h. Composed from parts rather than
+      panned across, and stepped on twos (12&nbsp;fps inside a 24&nbsp;fps timeline).</p>
     <div class="meta">
-      <span class="chip"><b>39.6</b>&nbsp;sec</span>
+      <span class="chip"><b>39.7</b>&nbsp;sec</span>
       <span class="chip"><b>14</b>&nbsp;cuts</span>
       <span class="chip">1920×1080</span>
       <span class="chip">12 fps on 24</span>
-      <span class="chip">nothing cropped</span>
-      <span class="chip">zoom-out only</span>
+      <span class="chip">layered animation</span>
+      <span class="chip">draw-on ink</span>
     </div>
   </header>
 
   <div class="player">
     <video id="film" controls preload="metadata" poster="poster.jpg" playsinline>
-      <source id="filmsrc" src="tryb-vox-collage-40s.mp4" type="video/mp4">
+      <source id="filmsrc" src="tryb-vox-motion-40s.mp4" type="video/mp4">
     </video>
   </div>
-  <p class="cap">tryb-vox-collage-40s.mp4 · 1080p master, 15 MB — a 720p/4.3 MB cut ships alongside for social and email.</p>
+  <p class="cap">tryb-vox-motion-40s.mp4 · 1080p master, 13 MB — a 720p/3.5 MB cut ships alongside for social and email.</p>
 
   <section class="sec">
     <div class="sec-rule"></div>
@@ -149,7 +149,7 @@
     <div class="notes" id="notes"></div>
   </section>
 
-  <footer>tryb × Vox collage · 14 cuts · 39.6 s · nothing cropped · rendered on twos · build/render.py regenerates the film</footer>
+  <footer>tryb × Vox motion · 14 shots · 39.7 s · layered keyframe animation · build/film.py + build/vox.py regenerate the film</footer>
 </div>
 
 <script>
@@ -168,20 +168,20 @@ const SC = {
 };
 
 const CUT = [
- [1,1,0,3.0,"We've never been more connected.","and never further apart","split","zoom out","Photoreal cold open — the only frame with no paper in it."],
- [2,1,3.0,2.5,"ALONE, TOGETHER.",null,"full","rotate settle","Torn newsprint headline. The thesis, stated once."],
- [3,1,5.5,3.0,"Hours vanish into a feed with no end.","just five more minutes","split","drift up","The feed unspools to a pile on the floor."],
- [4,1,8.5,3.0,"The group chat lives on. The plans quietly die.","next time, for sure","split","zoom out","Bubbles crumbling to dust beside an empty calendar."],
- [5,2,11.5,2.9,"Closeness became something we postpone.","text back later","split","drift side","A halftone embrace torn away by a phone."],
- [6,2,14.4,2.9,"7h 42m — vs. time with friends",null,"full","zoom out","The data beat. Paper people shrink as screen time climbs."],
- [7,2,17.3,2.6,"This is what it replaced.",null,"full","rotate settle","Line set inside the still's own white space. The quietest frame, and the turn."],
- [8,3,19.9,2.3,"tryb",null,"full","fade","First warm frame. Wordmark alone — the only shot that fades in."],
- [9,3,22.3,2.9,"So tryb starts with a better question.","not who you look like","split","zoom out","The product explained without a word of jargon."],
- [10,4,25.2,2.9,"Then it finds the people who love the same things.","five, not five thousand","split","drift up","Five faces strung to a tryb badge."],
- [11,4,28.1,3.0,"From screen to table.",null,"full","zoom out","The pivot: the ink arrow leaves the phone and lands in full colour."],
- [12,5,31.1,2.9,"No feed. No scrolling. An evening you remember.","this is the whole point","split","drift side","Full saturation, no phones anywhere in frame."],
- [13,6,34.0,2.7,"YOUR PEOPLE ARE OUT THERE",null,"full","rotate settle","Stacked cutout letters, each strip a different stock."],
- [14,6,36.7,2.9,"JOIN TRYB",null,"full","hold","Lands on brand orange and holds. The one shot that animates nothing."],
+ [1,1,0,3.0,"We've never been more connected.","and never further apart","photo","slide + circle","Crowd print slides down and settles at an angle; headline lands word by word; a red pen circles one figure at the end."],
+ [2,1,3.0,2.6,"ALONE, TOGETHER.",null,"type","snap + draw-on","Two torn strips fly in from opposite sides, 0.24s apart, each overshooting and settling. Then the red arrow draws itself on."],
+ [3,1,5.6,3.2,"Hours vanish into a feed with no end.","just five more minutes","photo","live scroll","The newsprint feed genuinely scrolls, looping continuously. Five notification scraps pop in around it, staggered 0.12s apart."],
+ [4,1,8.8,3.2,"The group chat lives on. The plans quietly die.","next time, for sure","build","land then fall","Five bubbles land one by one \u2014 then, one after another, drop out of frame and rotate away. The calendar slides in and gets crossed out with two red strokes."],
+ [5,2,11.9,2.8,"Closeness became something we postpone.","text back later","photo","tear + pulse","The phone slides in over the embrace at an angle. The reply bubble pops late; the typing dots pulse continuously underneath."],
+ [6,2,14.8,3.2,"Time falling, screen time climbing.",null,"data","grow + count","Five bars grow from the baseline, staggered. The trend arrow draws down across them. The screen-time line draws upward and the counter runs 0.0h \u2192 7.7h."],
+ [7,2,17.9,2.5,"This is what it replaced.",null,"photo","near-still","The quiet beat. One halftone print, one line, almost no movement \u2014 deliberate contrast against everything around it."],
+ [8,3,20.4,2.2,"tryb",null,"brand","pop","Wordmark snaps in with overshoot; two tape strips land after it, 0.12s apart. The first warm frame."],
+ [9,3,22.6,3.0,"So tryb starts with a better question.","not who you look like","build","pop + tap","Phone slides up, four answer chips pop in sequence, then the paper hand slides in and the third chip depresses under it."],
+ [10,4,25.6,3.0,"Then it finds the people who love the same things.","five, not five thousand","build","draw + pop","The tryb badge lands, five ink lines draw outward, and a real face pops in at the end of each."],
+ [11,4,28.6,3.0,"From screen to table.",null,"pivot","draw \u2192 land","The ink arrow draws left to right out of the phone, and the full-colour photo lands exactly where it points."],
+ [12,5,31.6,2.6,"No feed. No scrolling.","this is the whole point","photo","pop + confetti","Two colour prints land at opposing angles, then fourteen confetti squares pop across the frame in a 0.035s cascade."],
+ [13,6,34.2,2.7,"YOUR PEOPLE ARE OUT THERE",null,"type","stagger drop","Four cut strips drop in from above, 0.15s apart, each overshooting to its own angle. The wordmark pops in last."],
+ [14,6,36.8,2.8,"JOIN TRYB",null,"type","draw + snap","Wordmark scales in, the underline draws itself on, the CTA strip snaps in, and a final ink arrow points at it."],
 ];
 
 const ASSETS = [
@@ -212,12 +212,12 @@ const ASSETS = [
 ];
 
 const NOTES = [
- ["Nothing is cropped, nothing zooms in","Native ratios ran 0.75 to 1.50 — none were 16:9. Every still is now scaled DOWN to fit and laid as a paper card on textured cream cardstock, with a cream border, a nicked edge, a drop shadow and a strip of tape. Where a card moves it only ever zooms out, from 6% oversized to fit. The letterbox space became part of the design instead of something to hide.",0],
- ["One effect per shot, never twice in a row","Each shot animates exactly one property: zoom out, drift up, drift side, rotate settle, fade, or nothing at all. No combined moves. The renderer asserts on a repeat so the rule can't break silently. Text rides its own track, so a caption never counts as a second effect on the picture.",0],
- ["The field is your own texture","'Blank cream paper texture.png' sits behind all 14 frames, warmed slightly and washed with each scene's ground colour at 10% — enough that the cold-to-warm arc still reads, not enough to fight the cards.",0],
- ["Type matched to the collages","Headlines are set in Big Shoulders, the closest match to the condensed newspaper cutout type inside your own frames, with an orange hand-drawn rule. Kickers are Nothing You Could Do, matching the marker annotations. Both are open-licence and vendored in build/fonts.",0],
- ["The cutout sheet still isn't transparent","'transparent PNG cutouts (arrows, tape, hearts).png' has a baked olive-gradient background, so the tape strips in this cut are drawn procedurally instead. A true-alpha re-render would let the real ones animate on.",1],
- ["Two logo colourways in play","The wordmark is cream on shots 8, 13 and 14, orange on 9, 10 and 11. Both read fine in sequence, but worth locking one rule.",1],
+ ["Composed, not panned","Each shot is a stack of independently keyframed layers rather than a finished picture with a camera move on it. Elements have their own start times, easings and exits \u2014 which is what separates a Vox explainer from a slideshow.",0],
+ ["Things draw themselves on","Ink arrows, annotation circles and underlines render progressively along their own path length, so a stroke appears to be drawn rather than faded in. Same system powers the chart trend line and the calendar cross-out.",0],
+ ["Overshoot is the signature","Paper entrances use a back-out ease that overshoots and settles. That tiny bounce is what makes a cutout read as physically placed instead of digitally faded.",0],
+ ["Real data motion","The bar chart grows bar by bar, the screen-time line draws upward, and the figure counts up rather than appearing. The 7.7h is illustrative \u2014 swap in a sourced number before this goes public.",1],
+ ["Built from parts","Paper, tape, torn edges, halftone dot screens, portraits and charts are all generated in build/vox.py. The five faces are cut straight out of your constellation collage; the newsprint feed is a genuine looping scroll.",0],
+ ["Canva is not in this cut","Canva AI returned a presentation deck \u2014 invented statistics, a placeholder contact slide, deck prose. Its hosts are also blocked by this environment, so nothing could be downloaded to render. The film is built entirely from your original stills plus procedural collage.",1],
 ];
 
 const PAL = [["#4A7A80","Cool wash","Scene 1"],["#BC604A","Brick wash","Scene 2"],
